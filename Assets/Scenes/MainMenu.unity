@@ -7450,7 +7450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Remember to fill in the field.
+  m_text: Remember to fill in all fields.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9541,7 +9541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117225c91384a964986cc065d8743ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTooltip: 0
+  displayTooltip: 1
   tooltip: {fileID: 1605665460}
 --- !u!1 &1406788450
 GameObject:
@@ -9762,7 +9762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117225c91384a964986cc065d8743ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTooltip: 0
+  displayTooltip: 1
   tooltip: {fileID: 1086181518}
 --- !u!1 &1420629229
 GameObject:
@@ -13251,7 +13251,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1864480157
 Canvas:
   m_ObjectHideFlags: 0

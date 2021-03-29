@@ -1803,7 +1803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117225c91384a964986cc065d8743ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTooltip: 0
+  displayTooltip: 1
   tooltip: {fileID: 1072580003}
 --- !u!95 &372407232
 Animator:
@@ -4436,7 +4436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117225c91384a964986cc065d8743ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTooltip: 0
+  displayTooltip: 1
   tooltip: {fileID: 947574318}
 --- !u!224 &918458619 stripped
 RectTransform:
@@ -7716,7 +7716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1966123578
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7866,7 +7866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117225c91384a964986cc065d8743ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTooltip: 0
+  displayTooltip: 1
   tooltip: {fileID: 386331162}
 --- !u!95 &1972285902
 Animator:
@@ -8657,7 +8657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117225c91384a964986cc065d8743ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTooltip: 0
+  displayTooltip: 1
   tooltip: {fileID: 924628780}
 --- !u!1001 &7565061666835136920
 PrefabInstance:

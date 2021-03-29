@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    //Floats
-    private float halfwayPoint;
-
     /*
      * 0 = bottom half
      * 1 = top half
     */
-
-    void Update()
-    {
-
-    }
 
     public int FindHitHalf(float yHitPos)
     {
@@ -27,7 +19,7 @@ public class Paddle : MonoBehaviour
 
         if (yHitPos >= halfwayPoint)
             return 1;
-        else
-            return 0;
+
+        return 0;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,21 +6,22 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     #region Initialization
-    //Booleans
-    private bool player1Start;
-    private bool player2Start;
 
-    private bool gameStarted;
+    //Booleans
+    private bool _player1Start;
+    private bool _player2Start;
+
+    private bool _gameStarted;
 
     public bool countdownInProgress;
 
-    private bool timeRunning;
-    private bool timeRanOut;
+    private bool _timeRunning;
+    private bool _timeRanOut;
 
     public bool allowTiebreaker;
-    private bool tiebreaker;
+    private bool _tiebreaker;
 
-    private bool gameEnded;
+    private bool _gameEnded;
     public string gamemode;
 
     //Integers
@@ -37,8 +37,8 @@ public class GameManager : MonoBehaviour
     //UI
     public Text countdownText;
 
-    private Text gameClockText;
-    private Text roundCounterText;
+    private Text _gameClockText;
+    private Text _roundCounterText;
     public Text topRoundCounterText;
 
     public TMP_Text gamemodeDisplayText;
@@ -87,8 +87,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int seconds;
 
     //Scripts
-    private UIAnimationManager UIAnimationManagerScript;
-    private Settings settings;
+    private UIAnimationManager _UIAnimationManagerScript;
+    private Settings _settings;
 
     //Ball Trail
     public TrailRenderer ballTrail;
@@ -96,18 +96,18 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        UIAnimationManagerScript = FindObjectOfType<UIAnimationManager>();
-        settings = FindObjectOfType<Settings>();
+        _UIAnimationManagerScript = FindObjectOfType<UIAnimationManager>();
+        _settings = FindObjectOfType<Settings>();
 
         countdownInProgress = true;
 
-        timeRunning = false;
-        timeRanOut = false;
+        _timeRunning = false;
+        _timeRanOut = false;
 
-        tiebreaker = false;
+        _tiebreaker = false;
 
-        player1Start = false;
-        player2Start = false;
+        _player1Start = false;
+        _player2Start = false;
 
         //Initialize all game variables
         gamemode = GameSetup.gamemode;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
         {
             pressAnyKeyUI[i].SetActive(true);
 
-            if (!settings.chargingEnabled && i == 9)
+            if (!_settings.chargingEnabled && i == 9)
                 pressAnyKeyUI[i].SetActive(false);
         }
 
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
                 gameClockMinutes = minutes;
                 gameClockSeconds = seconds;
 
-                gameClockText = gameClock.GetComponent<Text>();
+                _gameClockText = gameClock.GetComponent<Text>();
 
                 gamemodeDisplayText.text = "Gamemode: Timed";
                 break;
@@ -147,34 +147,37 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        roundCounterText = roundCounter.GetComponent<Text>();
+        _roundCounterText = roundCounter.GetComponent<Text>();
     }
+
     #endregion
 
     private void Update()
     {
         //Update Settings
-        trailEnabled = settings.ballTail;
+        trailEnabled = _settings.ballTail;
 
         player1ScoreText.text = "" + player1Score;
         player2ScoreText.text = "" + player2Score;
 
-        if (!gameStarted)
+        if (!_gameStarted)
         {
             //If any control keys from both sides are pressed, then start the game!
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
+                Input.GetKeyDown(KeyCode.D))
             {
-                player1Start = true;
-                UIAnimationManagerScript.TransitionKeyUIColor(true);
+                _player1Start = true;
+                _UIAnimationManagerScript.TransitionKeyUIColor(true);
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) ||
+                Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                player2Start = true;
-                UIAnimationManagerScript.TransitionKeyUIColor(false);
+                _player2Start = true;
+                _UIAnimationManagerScript.TransitionKeyUIColor(false);
             }
 
-            if (player1Start)
+            if (_player1Start)
             {
                 for (int i = 0; i < player1ControlUI.Length; i++)
                 {
@@ -182,7 +185,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (player2Start)
+            if (_player2Start)
             {
                 for (int i = 0; i < player2ControlUI.Length; i++)
                 {
@@ -190,21 +193,21 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (player1Start && player2Start)
+            if (_player1Start && _player2Start)
             {
                 InitiateCountdown();
-                UIAnimationManagerScript.HideUIKeys();
-                gameStarted = true;
+                _UIAnimationManagerScript.HideUIKeys();
+                _gameStarted = true;
             }
         }
 
         if (Input.GetKeyDown(pauseKeys[0]) || Input.GetKeyDown(pauseKeys[1]))
             PauseGame();
 
-        //Manage Game Clock UI
-        if (gamemode == "Timed")
+        switch (gamemode)
         {
-            if (!tiebreaker)
+            //Manage Game Clock UI
+            case "Timed" when !_tiebreaker:
             {
                 string formattedMinutes = gameClockMinutes.ToString();
                 string formattedSeconds = gameClockSeconds.ToString();
@@ -215,36 +218,30 @@ public class GameManager : MonoBehaviour
                 if (formattedSeconds.Length == 1)
                     formattedSeconds = "0" + formattedSeconds;
 
-                gameClockText.text = formattedMinutes + ":" + formattedSeconds;
+                _gameClockText.text = formattedMinutes + ":" + formattedSeconds;
                 gameStatusText.text = formattedMinutes + ":" + formattedSeconds + " left";
+                break;
             }
-            else
-            {
-                gameClockText.text = "Tiebreaker";
-                roundCounterText.text = "Tiebreaker Round";
+            case "Timed":
+                _gameClockText.text = "Tiebreaker";
+                _roundCounterText.text = "Tiebreaker Round";
 
                 gameStatusText.text = "Tiebreaker Round";
-            }
-        }
-
-        //Manage Round Counter UI
-        if (gamemode == "Rounds")
-        {
+                break;
+            //Manage Round Counter UI
             //UI needs to: Keep track of rounds.
-            if (!tiebreaker)
-            {
+            case "Rounds" when !_tiebreaker:
                 topRoundCounterText.text = "Round " + roundNumber;
-                roundCounterText.text = "Round " + roundNumber + "/" + roundAmount;
+                _roundCounterText.text = "Round " + roundNumber + "/" + roundAmount;
 
                 gameStatusText.text = "Round " + roundNumber + "/" + roundAmount;
-            }
-            else
-            {
+                break;
+            case "Rounds":
                 topRoundCounterText.text = "Tiebreaker";
-                roundCounterText.text = "Tiebreaker Round";
+                _roundCounterText.text = "Tiebreaker Round";
 
                 gameStatusText.text = "Tiebreaker Round";
-            }
+                break;
         }
 
         if (countdownInProgress)
@@ -258,7 +255,7 @@ public class GameManager : MonoBehaviour
 
     public void Score(bool isPlayer1, int scoreAmount)
     {
-        if (gameEnded)
+        if (_gameEnded)
             return;
 
         if (isPlayer1)
@@ -266,18 +263,18 @@ public class GameManager : MonoBehaviour
         else
             player2Score += scoreAmount;
 
-        if (tiebreaker)
+        if (_tiebreaker)
             EndGame();
 
-        if (gamemode == "Rounds" && (roundNumber + 1) > roundAmount)
+        if (gamemode == "Rounds" && roundNumber + 1 > roundAmount)
         {
             EndGame();
             return;
         }
-        else
-            roundNumber++;
 
-        if (gamemode == "Timed" && timeRanOut)
+        roundNumber++;
+
+        if (gamemode == "Timed" && _timeRanOut)
             EndGame();
 
         InitiateCountdown();
@@ -305,7 +302,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        UIAnimationManagerScript.PauseMenuFadeOut();
+        _UIAnimationManagerScript.PauseMenuFadeOut();
     }
 
     public void OpenInGameSettingsMenu(GameObject settingsMenu)
@@ -322,16 +319,16 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame(bool fromPauseMenu = false)
     {
-        tiebreaker = false;
-        gameEnded = false;
+        _tiebreaker = false;
+        _gameEnded = false;
 
         player1Score = 0;
         player2Score = 0;
 
-        gameStarted = false;
+        _gameStarted = false;
 
-        player1Start = false;
-        player2Start = false;
+        _player1Start = false;
+        _player2Start = false;
 
         for (int i = 0; i < pressAnyKeyUI.Length; i++)
         {
@@ -351,7 +348,7 @@ public class GameManager : MonoBehaviour
             gameClockMinutes = minutes;
             gameClockSeconds = seconds;
 
-            timeRanOut = false;
+            _timeRanOut = false;
         }
         else
         {
@@ -374,13 +371,13 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-        //First, check if player scores are the same to see whether or not a tiebreaker round should be held.
+        //First, check if player scores are the same to see whether or not a _tiebreaker round should be held.
         if (player1Score == player2Score && allowTiebreaker)
         {
-            //Conduct tiebreaker round
-            //If timed, conduct a timeless round that never ends until somebody wins. Give option to declare a tie before conducting every tiebreaker.
-            /*Later on, maybe try to have some sort of tiebreaker text to signal to the players that it will be an epic tie-breaking round.*/
-            tiebreaker = true;
+            //Conduct _tiebreaker round
+            //If timed, conduct a timeless round that never ends until somebody wins. Give option to declare a tie before conducting every _tiebreaker.
+            /*Later on, maybe try to have some sort of _tiebreaker text to signal to the players that it will be an epic tie-breaking round.*/
+            _tiebreaker = true;
             InitiateCountdown();
             return;
         }
@@ -404,10 +401,11 @@ public class GameManager : MonoBehaviour
         }
 
         endgameScreen.SetActive(true);
-        gameEnded = true;
+        _gameEnded = true;
     }
 
     #region Countdown
+
     public void InitiateCountdown(bool reServe = false)
     {
         StartCoroutine(Countdown(3));
@@ -421,28 +419,28 @@ public class GameManager : MonoBehaviour
         GetComponent<BallServe>().RepositionBall(ballServePoint);
     }
 
-    IEnumerator Countdown(int seconds)
+    IEnumerator Countdown(int numberOfSeconds)
     {
         countdownInProgress = true;
 
         GetComponent<BallServe>().PreServeBall();
 
-        countdownText.text = "" + seconds;
+        countdownText.text = "" + numberOfSeconds;
 
         gameClock.SetActive(false);
         countdownText.gameObject.SetActive(true);
 
-        if (gamemode == "Rounds")
+        if (gamemode == "Rounds" || gamemode == "Timed" && _tiebreaker)
         {
             topRoundCounterText.gameObject.SetActive(false);
             roundCounter.SetActive(true);
         }
 
-        for (int i = 1; i <= seconds; i++)
+        for (int i = 1; i <= numberOfSeconds; i++)
         {
             yield return new WaitForSeconds(1);
 
-            countdownText.text = "" + (seconds - i);
+            countdownText.text = "" + (numberOfSeconds - i);
         }
 
         countdownText.gameObject.SetActive(false);
@@ -450,16 +448,20 @@ public class GameManager : MonoBehaviour
         countdownInProgress = false;
 
         if (gamemode == "Timed")
-            gameClock.SetActive(true);
+        {
+            if (_tiebreaker)
+                roundCounter.GetComponent<ActivateWithFade>().FadeOut();
+            else
+            {
+                gameClock.SetActive(true);
 
-        if (gamemode == "Timed" && !tiebreaker && !timeRunning)
-            StartCoroutine(GameClock());
+                if (!_timeRunning)
+                    StartCoroutine(GameClock());
+            }
+        }
 
         if (gamemode == "Rounds")
-        {
-            //topRoundCounterText.gameObject.SetActive(true);
             roundCounter.GetComponent<ActivateWithFade>().FadeOut();
-        }
 
         if (reServeText.activeInHierarchy)
             reServeText.GetComponent<ActivateWithFade>().FadeOut();
@@ -468,11 +470,12 @@ public class GameManager : MonoBehaviour
 
         GetComponent<BallServe>().ServeBall();
     }
+
     #endregion
 
-    IEnumerator GameClock()
+    private IEnumerator GameClock()
     {
-        timeRunning = true;
+        _timeRunning = true;
 
         int timeInSeconds = ((minutes * 60) + seconds);
 
@@ -495,14 +498,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        timeRunning = false;
-        timeRanOut = true;
+        _timeRunning = false;
+        _timeRanOut = true;
 
         EndGame();
-    }
-
-    public void ResumeTime()
-    {
-        Time.timeScale = 1;
     }
 }

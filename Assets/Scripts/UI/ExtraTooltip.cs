@@ -12,14 +12,9 @@ public class ExtraTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     //GameObjects
     public GameObject tooltip;
-    private GameObject lastHoveredButton;
+    private GameObject _lastHoveredButton;
 
-    private void Awake()
-    {
-        displayTooltip = true;
-
-        ActivateTooltip(false);
-    }
+    private void Awake() => ActivateTooltip(false);
 
     private void Update()
     {
@@ -34,6 +29,7 @@ public class ExtraTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         else
             tooltip.SetActive(false);
     }
+
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
         var selectedObject = pointerEventData.pointerCurrentRaycast.gameObject;
@@ -41,15 +37,15 @@ public class ExtraTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (selectedObject == gameObject)
         {
             GetComponent<ExtraTooltip>().ActivateTooltip(true);
-            lastHoveredButton = gameObject;
+            _lastHoveredButton = gameObject;
         }
         else
-            lastHoveredButton = null;
+            _lastHoveredButton = null;
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
-        if (lastHoveredButton == gameObject)
+        if (_lastHoveredButton == gameObject)
             GetComponent<ExtraTooltip>().ActivateTooltip(false);
     }
 }
