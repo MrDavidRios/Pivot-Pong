@@ -14,7 +14,7 @@ public class Paddle : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public int FindHitHalf(float yHitPos)
@@ -27,7 +27,7 @@ public class Paddle : MonoBehaviour
 
         if (yHitPos >= halfwayPoint)
             return 1;
-        else 
+        else
             return 0;
     }
 }

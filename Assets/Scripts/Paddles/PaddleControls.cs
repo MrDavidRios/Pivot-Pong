@@ -81,6 +81,11 @@ public class PaddleControls : MonoBehaviour
     }
     #endregion
 
+    private void FixedUpdate()
+    {
+
+    }
+
     private void Update()
     {
         //Update 'chargingEnabled' setting
@@ -193,16 +198,6 @@ public class PaddleControls : MonoBehaviour
             if (Mathf.Abs(Mathf.Abs(player2Paddle.position.y) - yLimit) < yLimitBuffer && Mathf.Sign(player2PaddleRb2D.velocity.y) == Mathf.Sign(player2PaddleRb2D.position.y))
                 player2PaddleRb2D.velocity = Vector2.zero;
         }
-
-        #region OldCode
-        /*Paddle Speed Regulator
-        float ballYToXVelocityRatio = Mathf.Abs(ball.GetComponent<Rigidbody2D>().velocity.y) / Mathf.Abs(ball.GetComponent<Rigidbody2D>().velocity.x);
-
-        if (ballYToXVelocityRatio > 1.5f)
-            SetGeneralPaddleSpeed(defaultPaddleSpeed * ballYToXVelocityRatio);
-        else
-            SetGeneralPaddleSpeed(defaultPaddleSpeed);*/
-        #endregion
     }
 
     private void MovePaddle(Transform paddleToMove, bool up)

@@ -49,7 +49,7 @@ public class BallPhysics : MonoBehaviour
         settings = FindObjectOfType<Settings>();
 
         audioManager = FindObjectOfType<AudioManager>();
-;
+        ;
         if (currentSceneName != "MainMenu")
         {
             paddleControls = FindObjectOfType<PaddleControls>();
