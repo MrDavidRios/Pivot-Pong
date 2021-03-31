@@ -9352,6 +9352,7 @@ GameObject:
   - component: {fileID: 1372014436}
   - component: {fileID: 1372014440}
   - component: {fileID: 1372014441}
+  - component: {fileID: 1372014442}
   m_Layer: 5
   m_Name: DuelButton
   m_TagString: Untagged
@@ -9543,6 +9544,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayTooltip: 1
   tooltip: {fileID: 1605665460}
+--- !u!114 &1372014442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372014434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7cfd1aff51e6947973466d4441e5d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnHover: 1
 --- !u!1 &1406788450
 GameObject:
   m_ObjectHideFlags: 0

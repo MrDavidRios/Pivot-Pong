@@ -34,6 +34,9 @@ public class MainMenuButtons : MonoBehaviour
 
     public void UpdateAnimationCompletionBool(int introAnimationComplete)
     {
+        if (!Utils.AnimatorUtils.HasParameter("isIntroAnimationComplete", anim))
+            return;
+
         if (introAnimationComplete == 1)
             anim.SetBool("isIntroAnimationComplete", true);
         else

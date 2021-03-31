@@ -2,6 +2,8 @@
 
 public class TransformToWorldSpace : MonoBehaviour
 {
+    public Camera mainCamera;
+
     public bool updatePosition;
 
     public Vector3 positionOffset;
@@ -11,8 +13,8 @@ public class TransformToWorldSpace : MonoBehaviour
     private RectTransform rectTransform;
 
     public void PlaceElement(RectTransform UIElement, Vector3 desiredPosition)
-    {        
-        Vector2 viewportPoint = Camera.main.WorldToViewportPoint(desiredPosition + positionOffset);
+    {
+        Vector2 viewportPoint = mainCamera.WorldToViewportPoint(desiredPosition + positionOffset);
 
         UIElement.anchorMin = viewportPoint;
         UIElement.anchorMax = viewportPoint;

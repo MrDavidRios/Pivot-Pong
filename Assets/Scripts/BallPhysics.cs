@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using EZCameraShake;
@@ -11,6 +10,9 @@ public class BallPhysics : MonoBehaviour
     private bool reServeEnabled = true;
 
     public bool cameraShakeEnabled;
+
+    //Integers
+    private int currentColorSchemeStage = 0;
 
     //Floats
     public float forceToAddX = 0f;
@@ -38,6 +40,8 @@ public class BallPhysics : MonoBehaviour
     private Settings settings;
     private AudioManager audioManager;
 
+    private ColorSchemeChange colorSchemeChanger;
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -49,7 +53,9 @@ public class BallPhysics : MonoBehaviour
         settings = FindObjectOfType<Settings>();
 
         audioManager = FindObjectOfType<AudioManager>();
-        ;
+
+        colorSchemeChanger = FindObjectOfType<ColorSchemeChange>();
+
         if (currentSceneName != "MainMenu")
         {
             paddleControls = FindObjectOfType<PaddleControls>();
@@ -76,10 +82,30 @@ public class BallPhysics : MonoBehaviour
         }
 
         if (Mathf.Abs(rb2d.velocity.x) > maxBallXVelocity)
-            forceToAddX = 0;
+            forceToAddX = 0f;
 
         if (Mathf.Abs(rb2d.velocity.y) > maxBallYVelocity)
-            forceToAddY = 0;
+            forceToAddY = 0f;
+
+        //Update color scheme based on ball speed
+        if (Mathf.Abs(rb2d.velocity.x) > 10f && currentSceneName != "MainMenu")
+        {
+            if (Mathf.Abs(rb2d.velocity.x) > 20f && currentColorSchemeStage != 3)
+            {
+                //Change color scheme to stage 3 (index 2)
+                currentColorSchemeStage = 3;
+
+                colorSchemeChanger.ChangeColorScheme(2);
+            }
+
+            if (currentColorSchemeStage != 2)
+            {
+                //Change color scheme to stage 2 (index 1)
+                currentColorSchemeStage = 2;
+
+                colorSchemeChanger.ChangeColorScheme(1);
+            }
+        }
     }
 
     IEnumerator CheckIfReServe()

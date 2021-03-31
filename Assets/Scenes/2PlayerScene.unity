@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0, y: -1.65, z: 0}
   desiredGameObject: {fileID: 866429242}
@@ -850,6 +851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: -0.6, y: 0, z: 0}
   desiredGameObject: {fileID: 630349973}
@@ -2395,7 +2397,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
+  m_DynamicPixelsPerUnit: 10
   m_PresetInfoIsWorld: 1
 --- !u!223 &545715737
 Canvas:
@@ -3731,13 +3733,19 @@ MonoBehaviour:
   - {fileID: 866429242}
   - {fileID: 630349973}
   - {fileID: 1795714045}
-  invertedColorObjects:
-  - {fileID: 1425638889}
-  primaryColor: {r: 1, g: 0.27883634, b: 0.1462264, a: 1}
-  invertedColor: {r: 1, g: 0.57853, b: 0, a: 1}
-  backgroundColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
-  lerpSpeed: 0.01
-  backgroundLerpSpeed: 0.1
+  secondaryColorObjects: []
+  colorSchemes:
+  - primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 0, g: 0.7765064, b: 1, a: 1}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  - primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 0.5501841, b: 0, a: 1}
+    backgroundColor: {r: 0, g: 0.66925573, b: 1, a: 1}
+  - primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 0.8291087, b: 0, a: 1}
+    backgroundColor: {r: 0.45065117, g: 0, b: 1, a: 1}
+  lerpSpeed: 0.9
+  backgroundLerpSpeed: 0.9
   mainCamera: {fileID: 519420031}
 --- !u!1 &803771712
 GameObject:
@@ -3833,6 +3841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0, y: 1.5, z: 0}
   desiredGameObject: {fileID: 866429242}
@@ -3926,6 +3935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0.75, y: 0, z: 0}
   desiredGameObject: {fileID: 866429242}
@@ -4496,6 +4506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: -0.75, y: 0, z: 0}
   desiredGameObject: {fileID: 866429242}
@@ -4967,6 +4978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0, y: -6.35, z: 0}
   desiredGameObject: {fileID: 545715734}
@@ -5337,6 +5349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0, y: 1.5, z: 0}
   desiredGameObject: {fileID: 630349973}
@@ -6282,6 +6295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0, y: -1.5, z: 0}
   desiredGameObject: {fileID: 630349973}
@@ -7156,6 +7170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a872ac02d02e0d14592a1e743c767194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   updatePosition: 1
   positionOffset: {x: 0.6, y: 0, z: 0}
   desiredGameObject: {fileID: 630349973}

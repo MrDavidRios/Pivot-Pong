@@ -39,7 +39,6 @@ public class SwitchMenuWindows : MonoBehaviour
     {
         //Before Transition Functions
         //Update this code every time a new menu window is added.
-
         switch (_sceneName)
         {
             //Destination Scene

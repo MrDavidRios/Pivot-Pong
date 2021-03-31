@@ -208,20 +208,20 @@ public class GameManager : MonoBehaviour
         {
             //Manage Game Clock UI
             case "Timed" when !_tiebreaker:
-            {
-                string formattedMinutes = gameClockMinutes.ToString();
-                string formattedSeconds = gameClockSeconds.ToString();
+                {
+                    string formattedMinutes = gameClockMinutes.ToString();
+                    string formattedSeconds = gameClockSeconds.ToString();
 
-                if (formattedMinutes.Length == 1)
-                    formattedMinutes = "0" + formattedMinutes;
+                    if (formattedMinutes.Length == 1)
+                        formattedMinutes = "0" + formattedMinutes;
 
-                if (formattedSeconds.Length == 1)
-                    formattedSeconds = "0" + formattedSeconds;
+                    if (formattedSeconds.Length == 1)
+                        formattedSeconds = "0" + formattedSeconds;
 
-                _gameClockText.text = formattedMinutes + ":" + formattedSeconds;
-                gameStatusText.text = formattedMinutes + ":" + formattedSeconds + " left";
-                break;
-            }
+                    _gameClockText.text = formattedMinutes + ":" + formattedSeconds;
+                    gameStatusText.text = formattedMinutes + ":" + formattedSeconds + " left";
+                    break;
+                }
             case "Timed":
                 _gameClockText.text = "Tiebreaker";
                 _roundCounterText.text = "Tiebreaker Round";
@@ -417,6 +417,8 @@ public class GameManager : MonoBehaviour
             reServeText.SetActive(true);
 
         GetComponent<BallServe>().RepositionBall(ballServePoint);
+
+        GetComponent<ColorSchemeChange>().ChangeColorScheme(0);
     }
 
     IEnumerator Countdown(int numberOfSeconds)

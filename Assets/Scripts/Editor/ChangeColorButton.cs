@@ -13,7 +13,7 @@ public class ChangeColorButton : Editor
 
         if (GUILayout.Button("Change Color Scheme"))
         {
-            colorSchemeScript.ChangeColorScheme();
+            colorSchemeScript.ChangeColorScheme(1);
         }
     }
 }

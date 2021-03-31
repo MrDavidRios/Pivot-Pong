@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
+    private VolumeSlider volumeSlider;
+
     //Booleans (Settings)
     public bool chargingEnabled;
     public bool cameraShakeEnabled;
@@ -122,10 +124,10 @@ public class Settings : MonoBehaviour
 
     public void UpdateVolumeValue()
     {
-        if (FindObjectOfType<VolumeSlider>() == null)
+        if (volumeSlider == null)
             return;
 
-        volume = FindObjectOfType<VolumeSlider>().volume;
+        volume = volumeSlider.volume;
 
         UpdateSettingsArray();
     }
@@ -133,6 +135,11 @@ public class Settings : MonoBehaviour
     private void UpdateSettingsArray()
     {
         settings = new bool[] { chargingEnabled, cameraShakeEnabled, autoReServe, ballTail };
+    }
+
+    private void Awake()
+    {
+        volumeSlider = FindObjectOfType<VolumeSlider>();
     }
 
     private void Update()
