@@ -19,8 +19,13 @@ public class ColorSchemeChange : MonoBehaviour
     //Colors
     public ColorScheme[] colorSchemes;
 
+    //Booleans
+    private bool currentlyLerping = false;
+    private bool anotherLerpStarted = false;
+
     //Integers
     private int currentStageIndex = 0;
+    private int stageIndexToCutOff = 0;
 
     //Floats
     public float lerpSpeed;
@@ -31,29 +36,42 @@ public class ColorSchemeChange : MonoBehaviour
 
     public void ChangeColorScheme(int stageIndex)
     {
-        StartCoroutine(ChangeColorSchemeCoroutine(stageIndex));
+        //Don't set the color scheme to default if it is already set to the default color scheme.
+        if (stageIndex != currentStageIndex)
+        {
+            if (currentlyLerping)
+            {
+                anotherLerpStarted = true;
+                stageIndexToCutOff = currentStageIndex;
+            }
+
+            StartCoroutine(ChangeColorSchemeCoroutine(stageIndex));
+        }
     }
 
     /// Call this whenever the ball exceeds a certain speed
     private IEnumerator ChangeColorSchemeCoroutine(int stageIndex)
     {
-        //Don't set the color scheme to default if it is already set to the default color scheme.
-        if (stageIndex == currentStageIndex && stageIndex == 0)
-            yield break;
-
-        StartCoroutine(ChangeBackgroundColor(colorSchemes[stageIndex].backgroundColor));
+        StartCoroutine(ChangeBackgroundColor(stageIndex));
 
         currentStageIndex = stageIndex;
 
         float t = 0;
 
-        Debug.Log("Here! Stage: " + stageIndex);
-
         while (t <= 1f)
         {
+            currentlyLerping = true;
+
+            if (anotherLerpStarted && stageIndex == stageIndexToCutOff) //Cut off lerp if another one is requested.
+            {
+                anotherLerpStarted = false;
+
+                yield break;
+            }
+
             t += Time.deltaTime * lerpSpeed;
 
-            foreach (GameObject obj in primaryColorObjects)
+            foreach (GameObject obj in primaryColorObjects) //TODO: Optimize this so that it uses generics to access components instead of GetComponent<>. This should shave off some ms.
             {
                 if (obj.GetComponent<SpriteRenderer>() != null)
                     obj.GetComponent<SpriteRenderer>().color =
@@ -64,8 +82,6 @@ public class ColorSchemeChange : MonoBehaviour
                     obj.GetComponent<Image>().color = Color.Lerp(obj.GetComponent<Image>().color, colorSchemes[stageIndex].primaryColor, t);
                 else if (obj.GetComponent<TrailRenderer>() != null)
                 {
-                    Debug.Log(colorSchemes[stageIndex].secondaryColor + "; Stage Index: " + stageIndex + "; t: " + t);
-
                     obj.GetComponent<TrailRenderer>().colorGradient =
                         GenerateTrailGradient(obj.GetComponent<TrailRenderer>().colorGradient, colorSchemes[stageIndex].secondaryColor,
                             Color.white, t);
@@ -86,18 +102,24 @@ public class ColorSchemeChange : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Stage " + (stageIndex + 1) + " Complete.");
+        //Debug.Log("Stage " + (stageIndex + 1) + " Complete.");
+
+        currentlyLerping = false;
+        anotherLerpStarted = false;
     }
 
-    private IEnumerator ChangeBackgroundColor(Color newBackgroundColor)
+    private IEnumerator ChangeBackgroundColor(int stageIndex)
     {
         float t = 0;
 
         while (t <= 1f)
         {
+            if (anotherLerpStarted && stageIndex == stageIndexToCutOff) //Cut off lerp if another one is requested.
+                yield break;
+
             t += Time.deltaTime * backgroundLerpSpeed;
 
-            mainCamera.backgroundColor = Color.Lerp(mainCamera.backgroundColor, newBackgroundColor, t);
+            mainCamera.backgroundColor = Color.Lerp(mainCamera.backgroundColor, colorSchemes[stageIndex].backgroundColor, t);
 
             yield return null;
         }

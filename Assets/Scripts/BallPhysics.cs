@@ -12,7 +12,7 @@ public class BallPhysics : MonoBehaviour
     public bool cameraShakeEnabled;
 
     //Integers
-    private int currentColorSchemeStage = 0;
+    [HideInInspector] public int highestReachedStageIndex = 0;
 
     //Floats
     public float forceToAddX = 0f;
@@ -88,24 +88,28 @@ public class BallPhysics : MonoBehaviour
             forceToAddY = 0f;
 
         //Update color scheme based on ball speed
-        if (Mathf.Abs(rb2d.velocity.x) > 10f && currentSceneName != "MainMenu")
+        if (currentSceneName != "MainMenu")
         {
-            if (Mathf.Abs(rb2d.velocity.x) > 20f && currentColorSchemeStage != 3)
+            if (Mathf.Abs(rb2d.velocity.x) > 10f)
             {
-                //Change color scheme to stage 3 (index 2)
-                currentColorSchemeStage = 3;
+                if (Mathf.Abs(rb2d.velocity.x) < 20f && highestReachedStageIndex < 1)
+                {
+                    //Change color scheme to stage 2 (index 1)
+                    colorSchemeChanger.ChangeColorScheme(1);
 
-                colorSchemeChanger.ChangeColorScheme(2);
-            }
+                    highestReachedStageIndex = 1;
+                }
 
-            if (currentColorSchemeStage != 2)
-            {
-                //Change color scheme to stage 2 (index 1)
-                currentColorSchemeStage = 2;
+                if (Mathf.Abs(rb2d.velocity.x) > 20f && highestReachedStageIndex < 2)
+                {
+                    //Change color scheme to stage 3 (index 2)
+                    colorSchemeChanger.ChangeColorScheme(2);
 
-                colorSchemeChanger.ChangeColorScheme(1);
+                    highestReachedStageIndex = 2;
+                }
             }
         }
+
     }
 
     IEnumerator CheckIfReServe()

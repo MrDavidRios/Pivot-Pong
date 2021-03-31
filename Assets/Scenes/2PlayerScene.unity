@@ -3579,9 +3579,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargingEnabled: 0
-  player1PaddleMovementSpeed: 10
-  player2PaddleMovementSpeed: 10
-  defaultPaddleMovementSpeed: 10
+  player1PaddleMovementSpeed: 20
+  player2PaddleMovementSpeed: 20
+  defaultPaddleMovementSpeed: 20
   player1PaddleRotateSpeed: 200
   player2PaddleRotateSpeed: 200
   defaultPaddleRotateSpeed: 200
@@ -3632,7 +3632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d668ef7005ccf74ea153d9c14d56298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballServeForceX: 50
+  ballServeForceX: 100
   ballServeForceY: 20
   ball: {fileID: 1425638891}
   directionalArrow: {fileID: 1724993666}
@@ -3744,8 +3744,8 @@ MonoBehaviour:
   - primaryColor: {r: 1, g: 1, b: 1, a: 1}
     secondaryColor: {r: 1, g: 0.8291087, b: 0, a: 1}
     backgroundColor: {r: 0.45065117, g: 0, b: 1, a: 1}
-  lerpSpeed: 0.9
-  backgroundLerpSpeed: 0.9
+  lerpSpeed: 0.03
+  backgroundLerpSpeed: 0.03
   mainCamera: {fileID: 519420031}
 --- !u!1 &803771712
 GameObject:
@@ -6588,6 +6588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraShakeEnabled: 0
+  highestReachedStageIndex: 0
   forceToAddX: 5
   forceToAddY: 5
   maxBallXVelocity: 25

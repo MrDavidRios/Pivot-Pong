@@ -78,6 +78,8 @@ public class BallServe : MonoBehaviour
 
     public void ServeBall(string startDirection = "None")
     {
+        ball.GetComponent<BallPhysics>().highestReachedStageIndex = 0;
+
         if (directionalArrow != null)
             directionalArrow.GetComponent<Image>().enabled = false;
 
