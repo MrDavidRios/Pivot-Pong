@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
     private VolumeSlider volumeSlider;
 
     //Booleans (Settings)
-    public bool chargingEnabled;
     public bool cameraShakeEnabled;
     public bool autoReServe;
     public bool ballTail;
+
+    public bool adaptiveColor;
 
     //Floats (Settings)
     public float volume;
@@ -19,7 +17,7 @@ public class Settings : MonoBehaviour
     /*
      * Indexes
      * 
-     * Charging - 0
+     * Adaptive Color - 0
      * Camera Shake - 1
      * Automatic Re-serve - 2
      * Ball Trail - 3
@@ -29,14 +27,12 @@ public class Settings : MonoBehaviour
     public bool[] settings;
     public string[] loadKeys;
 
-    //GetComponent<PaddleControls>().chargingEnabled = chargingEnabled;
-
     public void SaveSettings()
     {
-        //Settings to save: Paddle Charging, Camera Shake, Automatic Re-Serve, Ball Tail
+        //Settings to save: Adaptive Color, Camera Shake, Automatic Re-Serve, Ball Tail
 
         //If the variable is true, the int will be 1. If the variable is not true, the int will be 0.
-        PlayerPrefs.SetInt("Charging", chargingEnabled ? 1 : 0);
+        PlayerPrefs.SetInt("Adaptive Color", adaptiveColor ? 1 : 0);
         PlayerPrefs.SetInt("Camera Shake", cameraShakeEnabled ? 1 : 0);
         PlayerPrefs.SetInt("Automatic Re-serve", autoReServe ? 1 : 0);
         PlayerPrefs.SetInt("Ball Tail", ballTail ? 1 : 0);
@@ -58,7 +54,7 @@ public class Settings : MonoBehaviour
         }
 
         //If the variable is true, the int will be 1. If the variable is not true, the int will be 0.
-        chargingEnabled = PlayerPrefs.GetInt("Charging") == 1;
+        adaptiveColor = PlayerPrefs.GetInt("Adaptive Color") == 1;
         cameraShakeEnabled = PlayerPrefs.GetInt("Camera Shake") == 1;
         autoReServe = PlayerPrefs.GetInt("Automatic Re-serve") == 1;
         ballTail = PlayerPrefs.GetInt("Ball Tail") == 1;
@@ -71,36 +67,27 @@ public class Settings : MonoBehaviour
 
     public void ClearSettings()
     {
-        chargingEnabled = true;
+        adaptiveColor = true;
         cameraShakeEnabled = true;
         autoReServe = true;
         ballTail = true;
 
-        PlayerPrefs.SetInt("Charging", chargingEnabled ? 1 : 0);
-        PlayerPrefs.SetInt("Camera Shake", cameraShakeEnabled ? 1 : 0);
-        PlayerPrefs.SetInt("Automatic Re-serve", autoReServe ? 1 : 0);
-        PlayerPrefs.SetInt("Ball Tail", ballTail ? 1 : 0);
-
         volume = 1.0f;
 
-        PlayerPrefs.SetFloat("Volume", 1.0f);
+        SaveSettings();
+
         FindObjectOfType<VolumeSlider>().LoadExistingVolume(volume);
 
         UpdateSettingsArray();
     }
 
     //Settings to enable and disable
-    public void EnableCharging(bool enable)
+    public void EnableAdaptiveColor(bool enable)
     {
-        //Enable variable in script
-        chargingEnabled = enable;
-
-        //Have newly set variable change desired game function
-        //GetComponent<PaddleControls>().chargingEnabled = chargingEnabled;
+        adaptiveColor = enable;
 
         UpdateSettingsArray();
     }
-
     public void EnableCameraShake(bool enable)
     {
         cameraShakeEnabled = enable;
@@ -122,6 +109,7 @@ public class Settings : MonoBehaviour
         UpdateSettingsArray();
     }
 
+
     public void UpdateVolumeValue()
     {
         if (volumeSlider == null)
@@ -134,7 +122,7 @@ public class Settings : MonoBehaviour
 
     private void UpdateSettingsArray()
     {
-        settings = new bool[] { chargingEnabled, cameraShakeEnabled, autoReServe, ballTail };
+        settings = new bool[] { adaptiveColor, cameraShakeEnabled, autoReServe, ballTail };
     }
 
     private void Awake()

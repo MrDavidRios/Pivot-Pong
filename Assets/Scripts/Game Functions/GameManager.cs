@@ -118,9 +118,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < pressAnyKeyUI.Length; i++)
         {
             pressAnyKeyUI[i].SetActive(true);
-
-            if (!_settings.chargingEnabled && i == 9)
-                pressAnyKeyUI[i].SetActive(false);
         }
 
         switch (gamemode)

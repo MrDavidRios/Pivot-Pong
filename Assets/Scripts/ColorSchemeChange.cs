@@ -102,8 +102,6 @@ public class ColorSchemeChange : MonoBehaviour
             yield return null;
         }
 
-        //Debug.Log("Stage " + (stageIndex + 1) + " Complete.");
-
         currentlyLerping = false;
         anotherLerpStarted = false;
     }

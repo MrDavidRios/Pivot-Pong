@@ -88,7 +88,7 @@ public class BallPhysics : MonoBehaviour
             forceToAddY = 0f;
 
         //Update color scheme based on ball speed
-        if (currentSceneName != "MainMenu")
+        if (currentSceneName != "MainMenu" && settings.adaptiveColor)
         {
             if (Mathf.Abs(rb2d.velocity.x) > 10f)
             {

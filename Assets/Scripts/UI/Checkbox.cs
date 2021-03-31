@@ -48,7 +48,7 @@ public class Checkbox : MonoBehaviour
         switch (settingIndex)
         {
             case 0:
-                settings.EnableCharging(!settings.chargingEnabled);
+                settings.EnableAdaptiveColor(!settings.adaptiveColor);
                 break;
             case 1:
                 settings.EnableCameraShake(!settings.cameraShakeEnabled);

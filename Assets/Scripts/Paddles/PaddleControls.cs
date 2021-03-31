@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PaddleControls : MonoBehaviour
 {
@@ -9,8 +7,6 @@ public class PaddleControls : MonoBehaviour
     private bool[] currentlyHolding = new bool[] { false, false };
     private bool[] holdEnded = new bool[] { true, true };
     private bool[] holdingUp = new bool[] { true, true };
-
-    public bool chargingEnabled;
 
     private bool[] playerMoving = new bool[] { false, false };
 
@@ -88,9 +84,6 @@ public class PaddleControls : MonoBehaviour
 
     private void Update()
     {
-        //Update 'chargingEnabled' setting
-        chargingEnabled = settings.chargingEnabled;
-
         bool player1 = Input.GetKey(player1Up) || Input.GetKey(player1Down) || Input.GetKey(player1RightRotate) || Input.GetKey(player1LeftRotate);
         bool player2 = Input.GetKey(player2Up) || Input.GetKey(player2Down) || Input.GetKey(player2RightRotate) || Input.GetKey(player2LeftRotate);
 
@@ -231,59 +224,6 @@ public class PaddleControls : MonoBehaviour
 
             paddleToMove.transform.position = new Vector2(paddleToMove.transform.position.x, posY);
         }
-
-        #region Velocity Effect
-        if (!chargingEnabled)
-            return;
-
-        if (!player1 && !Input.GetKey(player1Charge) && currentlyHolding[0] && !holdEnded[0])
-            EndHold(0);
-
-        if (player1 && !Input.GetKey(player2Charge) && currentlyHolding[1] && !holdEnded[1])
-            EndHold(1);
-
-        if (player1 && Input.GetKey(player1Charge))
-        {
-            //Velocity effect
-            if (up && player1Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding up at top bound
-                StartHold(0);
-
-                holdingUp[0] = true;
-            }
-            else if (player1Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding down at bottom bound
-                StartHold(0);
-
-                holdingUp[0] = false;
-            }
-        }
-        else if (player1)
-            player1PaddleRb2D.velocity = Vector2.zero;
-
-        if (!player1 && Input.GetKey(player2Charge))
-        {
-            //Velocity effect
-            if (up && player2Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding up at top bound
-                StartHold(1);
-
-                holdingUp[1] = true;
-            }
-            else if (player2Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding down at bottom bound
-                StartHold(1);
-
-                holdingUp[1] = false;
-            }
-        }
-        else if (!player1)
-            player2PaddleRb2D.velocity = Vector2.zero;
-        #endregion
     }
 
     #region Mess
@@ -316,38 +256,6 @@ public class PaddleControls : MonoBehaviour
         }
 
         playerMoving[0] = false;
-
-        #region Velocity Effect
-        if (!chargingEnabled)
-            return;
-
-        if (!Input.GetKey(player2Charge) && currentlyHolding[1] && !holdEnded[1])
-            EndHold(1);
-
-        if (Input.GetKey(player1Charge))
-        {
-            //Velocity effect
-            if (up && player1Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding up at top bound
-                StartHold(0);
-
-                holdingUp[0] = true;
-            }
-            else if (player1Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding down at bottom bound
-                StartHold(0);
-
-                holdingUp[0] = false;
-            }
-        }
-        else if (!Input.GetKey(player1Charge))
-        {
-            player1PaddleRb2D.velocity = Vector2.zero;
-            currentlyHolding[0] = false;
-        }
-        #endregion
     }
 
     private void MovePlayer2Paddle(bool up)
@@ -379,38 +287,6 @@ public class PaddleControls : MonoBehaviour
         }
 
         playerMoving[1] = false;
-
-        #region Velocity Effect
-        if (!chargingEnabled)
-            return;
-
-        if (!Input.GetKey(player1Charge) && currentlyHolding[0] && !holdEnded[0])
-            EndHold(0);
-
-        if (Input.GetKey(player2Charge))
-        {
-            //Velocity effect
-            if (up && player2Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding up at top bound
-                StartHold(1);
-
-                holdingUp[1] = true;
-            }
-            else if (player2Paddle.transform.position.y == pastYpos)
-            {
-                //Player, holding down at bottom bound
-                StartHold(1);
-
-                holdingUp[1] = false;
-            }
-        }
-        else if (!Input.GetKey(player2Charge))
-        {
-            player2PaddleRb2D.velocity = Vector2.zero;
-            currentlyHolding[1] = false;
-        }
-        #endregion
     }
     #endregion
 
