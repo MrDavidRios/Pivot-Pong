@@ -1,6 +1,7 @@
 ﻿using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
+        //Update settings script on scene change
         volume = settings.volume;
     }
 
@@ -54,5 +56,15 @@ public class AudioManager : MonoBehaviour
         }
         else
             Debug.LogWarning("Sound " + name + " was not found.");
+    }
+
+    //Update settings instance when switching scenes
+    void OnEnable() => SceneManager.sceneLoaded += OnLevelFinishedLoading;
+
+    void OnDisable() => SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        settings = FindObjectOfType<Settings>();
     }
 }

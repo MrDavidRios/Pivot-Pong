@@ -2,7 +2,7 @@
 
 public class Settings : MonoBehaviour
 {
-    private VolumeSlider volumeSlider;
+    [SerializeField] private VolumeSlider volumeSlider;
 
     //Booleans (Settings)
     public bool cameraShakeEnabled;
@@ -20,7 +20,7 @@ public class Settings : MonoBehaviour
      * Adaptive Color - 0
      * Camera Shake - 1
      * Automatic Re-serve - 2
-     * Ball Trail - 3
+     * Ball Tail - 3
      * 
      */
 
@@ -48,6 +48,8 @@ public class Settings : MonoBehaviour
         {
             if (!PlayerPrefs.HasKey(loadKeys[i]))
             {
+                Debug.LogWarning("Settings Key Not Found: " + loadKeys[i]);
+
                 ClearSettings();
                 return;
             }
@@ -60,7 +62,10 @@ public class Settings : MonoBehaviour
         ballTail = PlayerPrefs.GetInt("Ball Tail") == 1;
 
         volume = PlayerPrefs.GetFloat("Volume");
-        FindObjectOfType<VolumeSlider>().LoadExistingVolume(volume);
+
+        Debug.Log("Loaded volume: " + volume);
+
+        volumeSlider.LoadExistingVolume(volume);
 
         UpdateSettingsArray();
     }
@@ -76,7 +81,7 @@ public class Settings : MonoBehaviour
 
         SaveSettings();
 
-        FindObjectOfType<VolumeSlider>().LoadExistingVolume(volume);
+        volumeSlider.LoadExistingVolume(volume);
 
         UpdateSettingsArray();
     }
@@ -125,10 +130,8 @@ public class Settings : MonoBehaviour
         settings = new bool[] { adaptiveColor, cameraShakeEnabled, autoReServe, ballTail };
     }
 
-    private void Awake()
-    {
-        volumeSlider = FindObjectOfType<VolumeSlider>();
-    }
+    private void Awake() => LoadSettings();
+
 
     private void Update()
     {

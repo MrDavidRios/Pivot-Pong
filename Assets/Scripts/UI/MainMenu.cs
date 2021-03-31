@@ -65,51 +65,43 @@ public class MainMenu : MonoBehaviour
         {
             if (timeInputFields[0].activeInHierarchy)
             {
-                int number;
+                completionVerifyButton.GetComponent<Tooltip>().tooltip.GetComponent<TMP_Text>().text = "Matches must be 30 seconds or longer.";
 
-                bool successMinutes = Int32.TryParse(timeInputFields[0].GetComponent<TMP_InputField>().text, out number);
-                bool successSeconds = Int32.TryParse(timeInputFields[1].GetComponent<TMP_InputField>().text, out number);
+                int minutesResult = 0;
+                int secondsResult = 0;
 
-                bool validMinuteAmount = false;
-                bool validNumberEntry = false;
+                string minutesInputText = timeInputFields[0].GetComponent<TMP_InputField>().text;
+                string secondsInputText = timeInputFields[1].GetComponent<TMP_InputField>().text;
+
+                bool successMinutes = int.TryParse(minutesInputText == "" ? "0" : minutesInputText, out minutesResult);
+                bool successSeconds = int.TryParse(secondsInputText == "" ? "0" : secondsInputText, out secondsResult);
+
+                bool validTime = false;
 
                 if (successMinutes && successSeconds)
                 {
-                    if (timeInputFields[0].GetComponent<TMP_InputField>().text == "00" && Int32.Parse(timeInputFields[1].GetComponent<TMP_InputField>().text) < 30)
-                        validMinuteAmount = false;
-                    else
-                        validMinuteAmount = true;
+                    if (minutesResult == 0 && secondsResult < 30)
+                        validTime = false;
+                    else if (minutesResult > 0 && secondsResult < 30 || secondsResult > 30)
+                        validTime = true;
                 }
 
-                if (timeInputFields[0].GetComponent<TMP_InputField>().text == "" || timeInputFields[1].GetComponent<TMP_InputField>().text == "")
-                    validNumberEntry = false;
-                else
-                    validNumberEntry = true;
+                if (validTime)
+                {
+                    completionVerifyButton.GetComponent<Tooltip>().displayTooltip = false;
 
-                if (validMinuteAmount && validNumberEntry)
                     completionVerifyButton.interactable = true;
+                }
                 else
-                    completionVerifyButton.interactable = false;
-
-                if (!validNumberEntry)
                 {
                     completionVerifyButton.GetComponent<Tooltip>().displayTooltip = true;
-                    completionVerifyButton.GetComponent<ExtraTooltip>().displayTooltip = false;
-                }
-                else if (!validMinuteAmount)
-                {
-                    completionVerifyButton.GetComponent<Tooltip>().displayTooltip = false;
-                    completionVerifyButton.GetComponent<ExtraTooltip>().displayTooltip = true;
-                }
-                else
-                {
-                    completionVerifyButton.GetComponent<Tooltip>().displayTooltip = false;
-                    completionVerifyButton.GetComponent<ExtraTooltip>().displayTooltip = false;
+
+                    completionVerifyButton.interactable = false;
                 }
             }
             else if (roundInputField.activeInHierarchy)
             {
-                completionVerifyButton.GetComponent<ExtraTooltip>().displayTooltip = false;
+                completionVerifyButton.GetComponent<Tooltip>().tooltip.GetComponent<TMP_Text>().text = "You need to enter a round amount to continue.";
 
                 if (roundInputField.GetComponent<TMP_InputField>().text == "")
                 {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class VolumeSlider : MonoBehaviour
@@ -10,11 +8,6 @@ public class VolumeSlider : MonoBehaviour
     public Image volumeStatus;
 
     public Sprite[] volumeStatusSprites;
-
-    private void Awake()
-    {
-        GetComponent<Slider>().value = FindObjectOfType<Settings>().volume;
-    }
 
     private void Update()
     {
@@ -28,8 +21,10 @@ public class VolumeSlider : MonoBehaviour
             volumeStatus.sprite = volumeStatusSprites[2];
     }
 
-    public void LoadExistingVolume(float volume)
+    public void LoadExistingVolume(float _volume)
     {
-        GetComponent<Slider>().value = volume;
+        volume = _volume;
+
+        GetComponent<Slider>().value = _volume;
     }
 }

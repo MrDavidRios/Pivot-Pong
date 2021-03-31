@@ -2100,7 +2100,7 @@ GameObject:
   - component: {fileID: 387843944}
   - component: {fileID: 387843943}
   m_Layer: 0
-  m_Name: FakeSettings
+  m_Name: Settings
   m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2118,6 +2118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40aa47b3c2ffe8140bb446844bd6a8fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 1102037730}
   cameraShakeEnabled: 1
   autoReServe: 1
   ballTail: 1
@@ -2125,10 +2126,10 @@ MonoBehaviour:
   volume: 0
   settings: 00000000
   loadKeys:
-  - 
-  - 
-  - 
-  - 
+  - Adaptive Color
+  - Camera Shake
+  - Automatic Re-serve
+  - Ball Tail
 --- !u!4 &387843944
 Transform:
   m_ObjectHideFlags: 0
@@ -2141,7 +2142,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &411118503
 GameObject:
@@ -3576,9 +3577,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cdaf153a601da14d8979c286b9a2ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1PaddleMovementSpeed: 20
-  player2PaddleMovementSpeed: 20
-  defaultPaddleMovementSpeed: 20
+  player1PaddleMovementSpeed: 10
+  player2PaddleMovementSpeed: 10
+  defaultPaddleMovementSpeed: 10
   player1PaddleRotateSpeed: 200
   player2PaddleRotateSpeed: 200
   defaultPaddleRotateSpeed: 200
@@ -3629,7 +3630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d668ef7005ccf74ea153d9c14d56298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballServeForceX: 100
+  ballServeForceX: 50
   ballServeForceY: 20
   ball: {fileID: 1425638891}
   directionalArrow: {fileID: 1724993666}
@@ -3711,8 +3712,8 @@ MonoBehaviour:
   roundNumber: 0
   minutes: 0
   seconds: 0
-  ballTrail: {fileID: 1795714047}
-  trailEnabled: 0
+  ballTail: {fileID: 1795714047}
+  tailEnabled: 0
 --- !u!114 &769492140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4262,7 +4263,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915496648
 GameObject:
@@ -5238,6 +5239,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1102037730 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7565061667781599584, guid: 9020f3cd2079ff447a284d56cedb3b18,
+    type: 3}
+  m_PrefabInstance: {fileID: 7565061666835136920}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3feed4d0b5083a244b3c8c9c65e9c75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1146099279
 GameObject:
   m_ObjectHideFlags: 0
@@ -7413,7 +7426,7 @@ GameObject:
   - component: {fileID: 1795714046}
   - component: {fileID: 1795714047}
   m_Layer: 0
-  m_Name: Trail
+  m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8657,6 +8670,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 387843943}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SaveSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Settings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565061667781599599, guid: 9020f3cd2079ff447a284d56cedb3b18,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7565061667796157548, guid: 9020f3cd2079ff447a284d56cedb3b18,
         type: 3}

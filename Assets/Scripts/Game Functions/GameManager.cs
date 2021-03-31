@@ -90,9 +90,9 @@ public class GameManager : MonoBehaviour
     private UIAnimationManager _UIAnimationManagerScript;
     private Settings _settings;
 
-    //Ball Trail
-    public TrailRenderer ballTrail;
-    public bool trailEnabled;
+    //Ball Tail
+    public TrailRenderer ballTail;
+    public bool tailEnabled;
 
     private void Awake()
     {
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         //Update Settings
-        trailEnabled = _settings.ballTail;
+        tailEnabled = _settings.ballTail;
 
         player1ScoreText.text = "" + player1Score;
         player2ScoreText.text = "" + player2Score;
@@ -407,8 +407,8 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(Countdown(3));
 
-        ballTrail.Clear();
-        ballTrail.emitting = false;
+        ballTail.Clear();
+        ballTail.emitting = false;
 
         if (reServe)
             reServeText.SetActive(true);
@@ -465,7 +465,7 @@ public class GameManager : MonoBehaviour
         if (reServeText.activeInHierarchy)
             reServeText.GetComponent<ActivateWithFade>().FadeOut();
 
-        ballTrail.emitting = trailEnabled;
+        ballTail.emitting = tailEnabled;
 
         GetComponent<BallServe>().ServeBall();
     }

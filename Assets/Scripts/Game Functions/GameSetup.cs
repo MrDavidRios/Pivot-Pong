@@ -25,19 +25,14 @@ public class GameSetup : MonoBehaviour
     public TMP_InputField[] timeAmountInputFields;
     #endregion
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-
-        GetComponent<Settings>().LoadSettings();
-    }
-
     public void UpdateGameInfo()
     {
         switch (gamemode)
         {
             case "Timed":
-                timeLimitInfo = new int[] { Int32.Parse(timeAmountInputFields[0].text), Int32.Parse(timeAmountInputFields[1].text) };
+                string inputtedMinute = timeAmountInputFields[0].text;
+                string inputtedSecond = timeAmountInputFields[1].text;
+                timeLimitInfo = new int[] { int.Parse(inputtedMinute == "" ? "0" : inputtedMinute), int.Parse(inputtedSecond == "" ? "0" : inputtedSecond) };
                 break;
             case "Rounds":
                 roundAmount = Int32.Parse(roundAmountInputField.text);
