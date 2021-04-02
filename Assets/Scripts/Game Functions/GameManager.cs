@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int seconds;
 
     //Scripts
-    private UIAnimationManager _UIAnimationManagerScript;
+    [SerializeField] UIAnimationManager UIAnimationManagerScript;
     private Settings _settings;
 
     //Ball Tail
@@ -95,7 +95,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _UIAnimationManagerScript = FindObjectOfType<UIAnimationManager>();
         _settings = FindObjectOfType<Settings>();
 
         countdownInProgress = true;
@@ -163,14 +162,14 @@ public class GameManager : MonoBehaviour
                 Input.GetKeyDown(KeyCode.D))
             {
                 _player1Start = true;
-                _UIAnimationManagerScript.TransitionKeyUIColor(true);
+                UIAnimationManagerScript.TransitionKeyUIColor(true);
             }
 
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) ||
                 Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
             {
                 _player2Start = true;
-                _UIAnimationManagerScript.TransitionKeyUIColor(false);
+                UIAnimationManagerScript.TransitionKeyUIColor(false);
             }
 
             if (_player1Start)
@@ -192,7 +191,7 @@ public class GameManager : MonoBehaviour
             if (_player1Start && _player2Start)
             {
                 InitiateCountdown();
-                _UIAnimationManagerScript.HideUIKeys();
+                UIAnimationManagerScript.HideUIKeys();
                 _gameStarted = true;
             }
         }
@@ -298,7 +297,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        _UIAnimationManagerScript.PauseMenuFadeOut();
+        UIAnimationManagerScript.PauseMenuFadeOut();
     }
 
     public void OpenInGameSettingsMenu(GameObject settingsMenu)

@@ -23,10 +23,6 @@ public class ReportScore : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Game Manager: " + gameManager);
-        if (multiplayer && gameManager == null)
-            gameManager = FindObjectOfType<MultiplayerGameManager>();
-
         if (goalName == "LeftGoal")
             gameManager.Score(false, 1);
         else if (goalName == "RightGoal")

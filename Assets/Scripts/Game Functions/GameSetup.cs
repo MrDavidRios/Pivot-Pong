@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class GameSetup : MonoBehaviour
 
     //Strings
     public static string gamemode;
+
+    public bool onlineMultiplayer;
 
     //Gamemode Dropdown
     //public TMP_Dropdown gamemodeDropdown;
@@ -45,5 +48,12 @@ public class GameSetup : MonoBehaviour
     public static void UpdateGamemode(string _gamemode)
     {
         gamemode = _gamemode;
+    }
+
+    public void SetMultiplayerStatus(bool multiplayerStatus) => onlineMultiplayer = multiplayerStatus;
+
+    public void JoinSceneBasedOnMultiplayerStatus()
+    {
+        FindObjectOfType<SceneSwitcher>().FadeToLevel(onlineMultiplayer ? "2PlayerSceneMultiplayer" : "2PlayerScene");
     }
 }
