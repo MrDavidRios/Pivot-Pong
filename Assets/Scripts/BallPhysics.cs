@@ -11,6 +11,8 @@ public class BallPhysics : MonoBehaviour
 
     public bool cameraShakeEnabled;
 
+    public bool multiplayer;
+
     //Integers
     [HideInInspector] public int highestReachedStageIndex = 0;
 
@@ -23,7 +25,7 @@ public class BallPhysics : MonoBehaviour
 
     public float ballVelocityCoefficient = 0f;
 
-    public float paddleSpeedMultiplier;
+    public static float paddleSpeedMultiplier;
 
     private float leftPaddleHorizontalPosition = 0f;
     private float rightPaddleHorizontalPosition = 0f;
@@ -35,7 +37,7 @@ public class BallPhysics : MonoBehaviour
     private Rigidbody2D rb2d;
 
     //Scripts
-    private GameManager gameManager;
+    private dynamic gameManager;
     private PaddleControls paddleControls;
     private Settings settings;
     private AudioManager audioManager;
@@ -48,7 +50,10 @@ public class BallPhysics : MonoBehaviour
 
         currentSceneName = SceneManager.GetActiveScene().name;
 
-        gameManager = FindObjectOfType<GameManager>();
+        if (multiplayer)
+            gameManager = FindObjectOfType<MultiplayerGameManager>();
+        else
+            gameManager = FindObjectOfType<GameManager>();
 
         settings = FindObjectOfType<Settings>();
 
@@ -58,10 +63,23 @@ public class BallPhysics : MonoBehaviour
 
         if (currentSceneName != "MainMenu")
         {
-            paddleControls = FindObjectOfType<PaddleControls>();
+            if (multiplayer)
+            {
+                var paddles = GameObject.FindGameObjectsWithTag("Paddle");
 
-            leftPaddleHorizontalPosition = paddleControls.player1Paddle.transform.position.x;
-            rightPaddleHorizontalPosition = paddleControls.player2Paddle.transform.position.x;
+                if (paddles.Length > 0)
+                    leftPaddleHorizontalPosition = paddles[0].transform.position.x;
+
+                if (paddles.Length > 1)
+                    rightPaddleHorizontalPosition = paddles[1].transform.position.x;
+            }
+            else
+            {
+                paddleControls = FindObjectOfType<PaddleControls>();
+
+                leftPaddleHorizontalPosition = paddleControls.player1Paddle.transform.position.x;
+                rightPaddleHorizontalPosition = paddleControls.player2Paddle.transform.position.x;
+            }
         }
     }
 
@@ -121,7 +139,12 @@ public class BallPhysics : MonoBehaviour
             yield return new WaitForSeconds(5);
 
             if (BallTooSlow(2f, "x"))
-                gameManager.InitiateCountdown(true);
+            {
+                if (multiplayer)
+                    gameManager.InitiateReServeCountdown();
+                else
+                    gameManager.InitiateCountdown(true);
+            }
         }
 
         reServeCheckStarted = false;

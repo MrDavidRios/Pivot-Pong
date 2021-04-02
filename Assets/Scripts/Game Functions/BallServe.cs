@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class BallServe : MonoBehaviour
 {
     #region Initialization
+
     //Floats
     public float ballServeForceX;
     public float ballServeForceY;
@@ -19,6 +18,8 @@ public class BallServe : MonoBehaviour
 
     //Transforms
     public Transform ball;
+
+    public Transform ballServePos;
 
     //RectTransforms
     public RectTransform directionalArrow;
@@ -35,6 +36,7 @@ public class BallServe : MonoBehaviour
 
         initBallServeForceX = ballServeForceX;
         initBallServeForceY = ballServeForceY;
+
     }
     #endregion
 
@@ -78,6 +80,9 @@ public class BallServe : MonoBehaviour
 
     public void ServeBall(string startDirection = "None")
     {
+        if (ball == null)
+            ball = GameObject.FindGameObjectWithTag("Ball").transform;
+
         ball.GetComponent<BallPhysics>().highestReachedStageIndex = 0;
 
         if (directionalArrow != null)
@@ -116,9 +121,12 @@ public class BallServe : MonoBehaviour
         }
     }
 
-    public void RepositionBall(Transform newBallPos)
+    public void RepositionBall()
     {
-        ball.position = newBallPos.position;
+        if (ball == null)
+            ball = GameObject.FindGameObjectWithTag("Ball").transform;
+
+        ball.position = ballServePos.position;
 
         ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
     }

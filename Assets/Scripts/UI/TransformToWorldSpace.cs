@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class TransformToWorldSpace : MonoBehaviour
 {
     public Camera mainCamera;
 
     public bool updatePosition;
+
+    public bool multiplayer;
 
     public Vector3 positionOffset;
 
@@ -24,12 +27,27 @@ public class TransformToWorldSpace : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
 
-        PlaceElement(rectTransform, desiredGameObject.transform.position);
+        if (!multiplayer)
+            PlaceElement(rectTransform, desiredGameObject.transform.position);
+        else
+            StartCoroutine(WaitForPlayerSpawn(rectTransform));
     }
 
     public void Update()
     {
-        if (updatePosition)
+        if (updatePosition && desiredGameObject != null)
             PlaceElement(rectTransform, desiredGameObject.transform.position);
+    }
+
+    private IEnumerator WaitForPlayerSpawn(RectTransform rectTransform)
+    {
+        yield return new WaitUntil(() => GameObject.FindGameObjectWithTag("Paddle") != null);
+
+        var paddles = GameObject.FindGameObjectsWithTag("Paddle");
+
+        if (paddles.Length == 1) //Added with the intention of preventing null errors
+            desiredGameObject = paddles[0];
+        else
+            desiredGameObject = paddles[MultiplayerPaddleSetup.paddleID - 1];
     }
 }

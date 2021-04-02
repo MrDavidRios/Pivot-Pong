@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LoadScene : MonoBehaviour
 {
@@ -12,9 +10,6 @@ public class LoadScene : MonoBehaviour
     private string sceneName;
     public string startingSceneName;
 
-    //Transforms
-    public Transform ballServePosition;
-    
     //GameObjects
     public GameObject cameraWrapper;
     public GameObject fadePanel;
@@ -40,12 +35,12 @@ public class LoadScene : MonoBehaviour
 
         if (sceneName == "MainMenu")
         {
-            ballServe.RepositionBall(ballServePosition);
+            ballServe.RepositionBall();
             scalePaddles.enabled = false;
         }
         else if (_sceneName == "MainMenu")
         {
-            ballServe.RepositionBall(ballServePosition);
+            ballServe.RepositionBall();
         }
 
         StartCoroutine(CompleteSceneSwitchCoroutine(_sceneName));

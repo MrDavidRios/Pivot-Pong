@@ -13,9 +13,6 @@ public class SwitchMenuWindows : MonoBehaviour
 
     public bool transitionVerificationCompleted;
 
-    //Transforms
-    public Transform ballServePosition;
-
     //Scripts
     private MainMenu menuManager;
     private BallServe ballServe;
@@ -71,7 +68,7 @@ public class SwitchMenuWindows : MonoBehaviour
                 {
                     //Current Scene
                     case "MainMenu":
-                        ballServe.RepositionBall(ballServePosition);
+                        ballServe.RepositionBall();
                         scalePaddles.enabled = false;
                         break;
                     case "GameSetup":
@@ -139,7 +136,7 @@ public class SwitchMenuWindows : MonoBehaviour
                 {
                     //Current Scene
                     case "ModeSelector":
-                        ballServe.RepositionBall(ballServePosition);
+                        ballServe.RepositionBall();
                         ballServe.ServeBall();
                         scalePaddles.enabled = true;
                         break;

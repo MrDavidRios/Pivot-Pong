@@ -77,20 +77,15 @@ public class PaddleControls : MonoBehaviour
     }
     #endregion
 
-    private void FixedUpdate()
-    {
-
-    }
-
     private void Update()
     {
         bool player1 = Input.GetKey(player1Up) || Input.GetKey(player1Down) || Input.GetKey(player1RightRotate) || Input.GetKey(player1LeftRotate);
         bool player2 = Input.GetKey(player2Up) || Input.GetKey(player2Down) || Input.GetKey(player2RightRotate) || Input.GetKey(player2LeftRotate);
 
-        if (ballPhysics.paddleSpeedMultiplier != 0)
+        if (BallPhysics.paddleSpeedMultiplier != 0)
         {
-            player1PaddleMovementSpeed = originalPlayer1PaddleMovementSpeed * ballPhysics.paddleSpeedMultiplier;
-            player2PaddleMovementSpeed = originalPlayer1PaddleMovementSpeed * ballPhysics.paddleSpeedMultiplier;
+            player1PaddleMovementSpeed = originalPlayer1PaddleMovementSpeed * BallPhysics.paddleSpeedMultiplier;
+            player2PaddleMovementSpeed = originalPlayer1PaddleMovementSpeed * BallPhysics.paddleSpeedMultiplier;
         }
 
         //Debug.Log("Player 1: " + player1 + "; Player 2: " + player2);

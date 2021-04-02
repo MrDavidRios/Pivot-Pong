@@ -63,8 +63,6 @@ public class Settings : MonoBehaviour
 
         volume = PlayerPrefs.GetFloat("Volume");
 
-        Debug.Log("Loaded volume: " + volume);
-
         volumeSlider.LoadExistingVolume(volume);
 
         UpdateSettingsArray();

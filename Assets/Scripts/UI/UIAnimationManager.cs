@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class UIAnimationManager : MonoBehaviour
 {
@@ -32,7 +29,7 @@ public class UIAnimationManager : MonoBehaviour
                 pressAnyKeyUI[i].GetComponent<Animator>().SetBool("KeyPressed", true);
             }
         }
-        else
+        else if (pressAnyKeyUI.Length > 5)
         {
             for (int i = 5; i < 9; i++)
             {

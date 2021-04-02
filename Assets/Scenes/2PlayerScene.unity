@@ -657,6 +657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: 0.75, y: 0, z: 0}
   desiredGameObject: {fileID: 866429242}
 --- !u!222 &103029382
@@ -828,6 +829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: 0, y: -1.65, z: 0}
   desiredGameObject: {fileID: 866429242}
 --- !u!222 &205726886
@@ -3008,6 +3010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: 0, y: -1.5, z: 0}
   desiredGameObject: {fileID: 630349973}
 --- !u!222 &746933537
@@ -3351,6 +3354,7 @@ MonoBehaviour:
   ballServeForceX: 50
   ballServeForceY: 20
   ball: {fileID: 1425638891}
+  ballServePos: {fileID: 1661811415}
   directionalArrow: {fileID: 1178285062}
 --- !u!114 &769492138
 MonoBehaviour:
@@ -3364,6 +3368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4820de1b4c278429445956e8c34d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayer: 0
   widthDivisor: 10
   paddleLeft: {fileID: 866429242}
   paddleRight: {fileID: 630349973}
@@ -3386,7 +3391,6 @@ MonoBehaviour:
   player2Score: 0
   gameClockMinutes: 0
   gameClockSeconds: 0
-  ballServePoint: {fileID: 1661811415}
   countdownText: {fileID: 1251216767}
   topRoundCounterText: {fileID: 1511259260}
   gamemodeDisplayText: {fileID: 1558178898}
@@ -5754,6 +5758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: -0.6, y: 0, z: 0}
   desiredGameObject: {fileID: 630349973}
 --- !u!222 &1259512009
@@ -5915,6 +5920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: -0.75, y: 0, z: 0}
   desiredGameObject: {fileID: 866429242}
 --- !u!222 &1358022090
@@ -6177,13 +6183,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraShakeEnabled: 0
+  multiplayer: 0
   highestReachedStageIndex: 0
   forceToAddX: 5
   forceToAddY: 5
   maxBallXVelocity: 25
   maxBallYVelocity: 10
   ballVelocityCoefficient: 0
-  paddleSpeedMultiplier: 0
 --- !u!1 &1484461451
 GameObject:
   m_ObjectHideFlags: 0
@@ -6304,6 +6310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: 0, y: 1.5, z: 0}
   desiredGameObject: {fileID: 866429242}
 --- !u!222 &1484461457
@@ -6778,6 +6785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: 0, y: 1.5, z: 0}
   desiredGameObject: {fileID: 630349973}
 --- !u!222 &1537553168
@@ -7026,6 +7034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   updatePosition: 1
+  multiplayer: 0
   positionOffset: {x: 0.6, y: 0, z: 0}
   desiredGameObject: {fileID: 630349973}
 --- !u!222 &1621171482

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -18,7 +14,6 @@ public class MainMenu : MonoBehaviour
 
     //Transforms
     private Transform ball;
-    public Transform ballServePosition;
 
     //GameObjects/UI
     public GameObject[] cameraPositions;
@@ -54,7 +49,7 @@ public class MainMenu : MonoBehaviour
 
         if (ball.position.x < leftBoundXValue || ball.position.x > rightBoundXValue)
         {
-            ballServe.RepositionBall(ballServePosition);
+            ballServe.RepositionBall();
             ballServe.ServeBall();
         }
 

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private bool _gameStarted;
 
+    [Header("Game Settings/Data")]
     public bool countdownInProgress;
 
     private bool _timeRunning;
@@ -31,10 +32,8 @@ public class GameManager : MonoBehaviour
     public int gameClockMinutes;
     public int gameClockSeconds;
 
-    //Transforms
-    public Transform ballServePoint;
-
     //UI
+    [Header("UI")]
     public Text countdownText;
 
     private Text _gameClockText;
@@ -71,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     public Color buttonPressedColor;
 
-    //Hotkeys
+    //Keybinds
     public KeyCode[] pauseKeys;
 
     //Paddles
@@ -357,7 +356,7 @@ public class GameManager : MonoBehaviour
 
         if (fromPauseMenu)
         {
-            GetComponent<BallServe>().RepositionBall(ballServePoint);
+            GetComponent<BallServe>().RepositionBall();
             pauseMenu.SetActive(false);
         }
         else
@@ -413,7 +412,7 @@ public class GameManager : MonoBehaviour
         if (reServe)
             reServeText.SetActive(true);
 
-        GetComponent<BallServe>().RepositionBall(ballServePoint);
+        GetComponent<BallServe>().RepositionBall();
 
         GetComponent<ColorSchemeChange>().ChangeColorScheme(0);
     }

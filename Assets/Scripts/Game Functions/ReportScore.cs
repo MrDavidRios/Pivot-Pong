@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class ReportScore : MonoBehaviour
 {
+    //Booleans
+    public bool multiplayer;
+
     //Strings
     public string goalName;
 
     //Scripts
-    public GameManager gameManager;
+    private dynamic gameManager;
 
     private void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        if (multiplayer)
+            gameManager = FindObjectOfType<MultiplayerGameManager>();
+        else
+            gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        Debug.Log("Game Manager: " + gameManager);
+        if (multiplayer && gameManager == null)
+            gameManager = FindObjectOfType<MultiplayerGameManager>();
+
         if (goalName == "LeftGoal")
             gameManager.Score(false, 1);
         else if (goalName == "RightGoal")
