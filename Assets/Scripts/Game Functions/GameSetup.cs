@@ -22,6 +22,10 @@ public class GameSetup : MonoBehaviour
 
     public bool onlineMultiplayer;
 
+    public bool _hosting;
+
+    public static bool hosting;
+
     //Gamemode Dropdown
     //public TMP_Dropdown gamemodeDropdown;
     public TMP_InputField roundAmountInputField;
@@ -52,8 +56,17 @@ public class GameSetup : MonoBehaviour
 
     public void SetMultiplayerStatus(bool multiplayerStatus) => onlineMultiplayer = multiplayerStatus;
 
+    public void SetHostingStatus(bool hostingStatus)
+    {
+        _hosting = hostingStatus;
+        hosting = hostingStatus;
+    }
+
     public void JoinSceneBasedOnMultiplayerStatus()
     {
         FindObjectOfType<SceneSwitcher>().FadeToLevel(onlineMultiplayer ? "2PlayerSceneMultiplayer" : "2PlayerScene");
     }
+
+    public void ActivateObject(GameObject obj) => obj.SetActive(true);
+    public void DeactivateObject(GameObject obj) => obj.SetActive(false);
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TransformToWorldSpace : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class TransformToWorldSpace : MonoBehaviour
     public bool updatePosition;
 
     public bool multiplayer;
+
+    private Text textComponent;
 
     public Vector3 positionOffset;
 
@@ -21,11 +24,15 @@ public class TransformToWorldSpace : MonoBehaviour
 
         UIElement.anchorMin = viewportPoint;
         UIElement.anchorMax = viewportPoint;
+
+        if (multiplayer && !textComponent.enabled)
+            textComponent.enabled = true;
     }
 
     public void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        textComponent = GetComponent<Text>();
 
         if (!multiplayer)
             PlaceElement(rectTransform, desiredGameObject.transform.position);

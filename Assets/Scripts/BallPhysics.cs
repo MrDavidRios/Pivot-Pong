@@ -140,9 +140,9 @@ public class BallPhysics : MonoBehaviour
 
             if (BallTooSlow(2f, "x"))
             {
-                if (multiplayer)
+                if (multiplayer && MultiplayerPaddleSetup.paddleID == 1)
                     gameManager.InitiateReServeCountdown();
-                else
+                else if (!multiplayer)
                     gameManager.InitiateCountdown(true);
             }
         }

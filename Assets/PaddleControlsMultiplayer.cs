@@ -92,7 +92,12 @@ public class PaddleControlsMultiplayer : NetworkBehaviour
 
     private void MovePaddle(bool up)
     {
-        if (!ready) UpdatePlayerStatus(true);
+        if (!ready)
+        {
+            FindObjectOfType<UIAnimationManager>().TransitionKeyUIColor(true);
+            UpdatePlayerStatus(MultiplayerPaddleSetup.paddleID);
+        }
+
         ready = true;
 
         //Initialization
@@ -120,7 +125,12 @@ public class PaddleControlsMultiplayer : NetworkBehaviour
 
     private void RotatePaddle(bool right)
     {
-        if (!ready) UpdatePlayerStatus(true);
+        if (!ready)
+        {
+            FindObjectOfType<UIAnimationManager>().TransitionKeyUIColor(true);
+            UpdatePlayerStatus(MultiplayerPaddleSetup.paddleID);
+        }
+
         ready = true;
 
         if (right)
@@ -133,12 +143,10 @@ public class PaddleControlsMultiplayer : NetworkBehaviour
     public static event Action<int> OnPlayerReady;
 
     [Command]
-    private void UpdatePlayerStatus(bool ready)
+    private void UpdatePlayerStatus(int playerID)
     {
-        FindObjectOfType<UIAnimationManager>().TransitionKeyUIColor(true);
-
         OnPlayerReady?.Invoke(playerID);
 
-        Debug.Log("Player " + playerID + " is " + (!ready ? "not" : "") + "ready.");
+        Debug.Log("Player " + playerID + " is " + (!ready ? "not " : "") + "ready.");
     }
 }

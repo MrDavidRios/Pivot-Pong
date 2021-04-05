@@ -19,6 +19,7 @@ public class MultiplayerNetworkManager : NetworkManager
 
 
     public static event Action OnConnected;
+    public static event Action OnDisconnected;
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
@@ -56,5 +57,12 @@ public class MultiplayerNetworkManager : NetworkManager
         base.OnClientConnect(conn);
 
         OnConnected?.Invoke();
+    }
+
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        base.OnClientDisconnect(conn);
+
+        OnDisconnected?.Invoke();
     }
 }

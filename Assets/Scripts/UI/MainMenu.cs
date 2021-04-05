@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour
                 {
                     if (minutesResult == 0 && secondsResult < 30)
                         validTime = false;
-                    else if (minutesResult > 0 && secondsResult < 30 || secondsResult > 30)
+                    else if (minutesResult > 0 || secondsResult > 30)
                         validTime = true;
                 }
 

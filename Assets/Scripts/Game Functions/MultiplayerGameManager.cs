@@ -23,7 +23,7 @@ public class MultiplayerGameManager : NetworkBehaviour
     private bool _tiebreaker;
 
     private bool _gameEnded;
-    public string gamemode;
+    [SyncVar] public string gamemode;
 
     //Integers
     public int playerID;
@@ -34,15 +34,15 @@ public class MultiplayerGameManager : NetworkBehaviour
     [SyncVar(hook = nameof(UpdatePlayer2Score))]
     public int player2Score;
 
-    public int gameClockMinutes;
-    public int gameClockSeconds;
+    [SyncVar] public int gameClockMinutes;
+    [SyncVar] public int gameClockSeconds;
 
     //UI
     [Header("UI")]
     public Text countdownText;
 
-    private Text _gameClockText;
-    private Text _roundCounterText;
+    [SerializeField] private Text gameClockText;
+    [SerializeField] private Text roundCounterText;
     public Text topRoundCounterText;
 
     public TMP_Text gamemodeDisplayText;
@@ -60,6 +60,8 @@ public class MultiplayerGameManager : NetworkBehaviour
     public GameObject roundCounter;
 
     public GameObject reServeText;
+
+    public GameObject pressAnyKeyText;
 
     public TMP_Text gameStatusText;
 
@@ -82,12 +84,12 @@ public class MultiplayerGameManager : NetworkBehaviour
     public GameObject player2Paddle;
 
     //Rounds Gamemode
-    [SerializeField] private int roundAmount;
-    [SerializeField] private int roundNumber;
+    [SyncVar] [SerializeField] private int roundAmount;
+    [SyncVar] [SerializeField] private int roundNumber;
 
     //Timed Gamemode
-    [SerializeField] private int minutes;
-    [SerializeField] private int seconds;
+    [SyncVar] [SerializeField] private int minutes;
+    [SyncVar] [SerializeField] private int seconds;
 
     //Scripts
     [Header("Components")]
@@ -118,6 +120,35 @@ public class MultiplayerGameManager : NetworkBehaviour
         player2ScoreText.text = newScore.ToString();
     }
 
+    void OnEnable()
+    {
+        gamemode = GameSetup.gamemode == null ? "Undefined" : GameSetup.gamemode;
+
+        //Load in game data
+        switch (gamemode)
+        {
+            case "Timed":
+                minutes = GameSetup.timeLimitInfo[0];
+                seconds = GameSetup.timeLimitInfo[1];
+
+                gameClockMinutes = minutes;
+                gameClockSeconds = seconds;
+
+                gamemodeDisplayText.text = "Gamemode: Timed";
+                break;
+            case "Rounds":
+                roundNumber = 1;
+                roundAmount = GameSetup.roundAmount;
+
+                gamemodeDisplayText.text = "Gamemode: Rounds";
+                break;
+            default:
+                if (MultiplayerPaddleSetup.paddleID == 1)
+                    Debug.LogWarning("Invalid Gamemode: " + gamemode);
+                break;
+        }
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -130,7 +161,8 @@ public class MultiplayerGameManager : NetworkBehaviour
 
         _tiebreaker = false;
 
-        gamemode = GameSetup.gamemode;
+        if (MultiplayerPaddleSetup.paddleID == 1)
+            gamemode = GameSetup.gamemode;
 
         gameClock.SetActive(false);
         roundCounter.SetActive(false);
@@ -140,33 +172,13 @@ public class MultiplayerGameManager : NetworkBehaviour
             pressAnyKeyUI[i].SetActive(true);
         }
 
-        switch (gamemode)
-        {
-            case "Timed":
-                minutes = GameSetup.timeLimitInfo[0];
-                seconds = GameSetup.timeLimitInfo[1];
-
-                gameClockMinutes = minutes;
-                gameClockSeconds = seconds;
-
-                _gameClockText = gameClock.GetComponent<Text>();
-
-                gamemodeDisplayText.text = "Gamemode: Timed";
-                break;
-            case "Rounds":
-                roundNumber = 1;
-                roundAmount = GameSetup.roundAmount;
-
-                gamemodeDisplayText.text = "Gamemode: Rounds";
-                break;
-            default:
-                Debug.LogWarning("Invalid Gamemode: " + gamemode);
-                break;
-        }
-
-        _roundCounterText = roundCounter.GetComponent<Text>();
-
+        MultiplayerNetworkManager.OnPlayerChange += ShowPressKeyReminder;
         PaddleControlsMultiplayer.OnPlayerReady += SetPlayerStatus;
+    }
+
+    private void ShowPressKeyReminder(bool roomFull)
+    {
+        if (pressAnyKeyText != null) pressAnyKeyText.SetActive(roomFull);
     }
 
     private void SetPlayerStatus(int playerID) => SetPlayerStatus(playerID, true);
@@ -189,6 +201,8 @@ public class MultiplayerGameManager : NetworkBehaviour
         {
             pressAnyKeyUI[i].SetActive(false);
         }
+
+        pressAnyKeyText.SetActive(false);
     }
 
     public override void OnStartServer()
@@ -242,13 +256,13 @@ public class MultiplayerGameManager : NetworkBehaviour
                     if (formattedSeconds.Length == 1)
                         formattedSeconds = "0" + formattedSeconds;
 
-                    _gameClockText.text = formattedMinutes + ":" + formattedSeconds;
+                    gameClockText.text = formattedMinutes + ":" + formattedSeconds;
                     gameStatusText.text = formattedMinutes + ":" + formattedSeconds + " left";
                     break;
                 }
             case "Timed":
-                _gameClockText.text = "Tiebreaker";
-                _roundCounterText.text = "Tiebreaker Round";
+                gameClockText.text = "Tiebreaker";
+                roundCounterText.text = "Tiebreaker Round";
 
                 gameStatusText.text = "Tiebreaker Round";
                 break;
@@ -256,13 +270,13 @@ public class MultiplayerGameManager : NetworkBehaviour
             //UI needs to: Keep track of rounds.
             case "Rounds" when !_tiebreaker:
                 topRoundCounterText.text = "Round " + roundNumber;
-                _roundCounterText.text = "Round " + roundNumber + "/" + roundAmount;
+                roundCounterText.text = "Round " + roundNumber + "/" + roundAmount;
 
                 gameStatusText.text = "Round " + roundNumber + "/" + roundAmount;
                 break;
             case "Rounds":
                 topRoundCounterText.text = "Tiebreaker";
-                _roundCounterText.text = "Tiebreaker Round";
+                roundCounterText.text = "Tiebreaker Round";
 
                 gameStatusText.text = "Tiebreaker Round";
                 break;
@@ -282,7 +296,10 @@ public class MultiplayerGameManager : NetworkBehaviour
         AssignBallTailInstance(true);
         GetComponent<BallServe>().ball = ballTail?.transform.parent;
 
-        InitiateCountdown(false);
+        if (playerID == 1)
+            InitiateCountdown(false);
+
+
 
         _UIAnimationManagerScript.HideUIKeys();
         gameStarted = true;
@@ -312,7 +329,8 @@ public class MultiplayerGameManager : NetworkBehaviour
         if (gamemode == "Timed" && _timeRanOut)
             EndGame();
 
-        InitiateCountdown(false);
+        if (playerID == 1)
+            InitiateCountdown(false);
     }
 
     private void PauseGame()
@@ -385,7 +403,9 @@ public class MultiplayerGameManager : NetworkBehaviour
         else
         {
             topRoundCounterText.gameObject.SetActive(false);
-            roundNumber = 1;
+
+            if (playerID == 1)
+                roundNumber = 1;
         }
 
         Time.timeScale = 1;
@@ -410,6 +430,8 @@ public class MultiplayerGameManager : NetworkBehaviour
         player2Score = 0;
 
         gameStarted = false;
+
+        ResetUI();
     }
 
     private void EndGame()
@@ -417,11 +439,14 @@ public class MultiplayerGameManager : NetworkBehaviour
         //First, check if player scores are the same to see whether or not a tiebreaker round should be held.
         if (player1Score == player2Score && allowTiebreaker)
         {
-            //Conduct _tiebreaker round
+            //Conduct tiebreaker round
             //If timed, conduct a timeless round that never ends until somebody wins. Give option to declare a tie before conducting every _tiebreaker.
             /*Later on, maybe try to have some sort of _tiebreaker text to signal to the players that it will be an epic tie-breaking round.*/
             _tiebreaker = true;
-            InitiateCountdown(false);
+
+            if (playerID == 1)
+                InitiateCountdown(false);
+
             return;
         }
 
@@ -445,9 +470,32 @@ public class MultiplayerGameManager : NetworkBehaviour
 
         endgameScreen.SetActive(true);
         _gameEnded = true;
+
+        ResetUI();
     }
 
     #region Countdown
+
+    private void ResetUI()
+    {
+        switch (gamemode)
+        {
+            case "Timed":
+                if (gameClock != null)
+                    gameClock.SetActive(false);
+                break;
+            case "Rounds":
+                if (roundCounter != null)
+                    roundCounter.SetActive(false);
+                break;
+        }
+
+        if (player1ScoreText != null)
+        {
+            player1ScoreText.gameObject.SetActive(false);
+            player2ScoreText.gameObject.SetActive(false);
+        }
+    }
 
     public void InitiateReServeCountdown() => InitiateCountdown(true);
 
@@ -501,6 +549,9 @@ public class MultiplayerGameManager : NetworkBehaviour
 
         countdownInProgress = false;
 
+        player1ScoreText.gameObject.SetActive(true);
+        player2ScoreText.gameObject.SetActive(true);
+
         if (gamemode == "Timed")
         {
             if (_tiebreaker)
@@ -509,7 +560,7 @@ public class MultiplayerGameManager : NetworkBehaviour
             {
                 gameClock.SetActive(true);
 
-                if (!_timeRunning)
+                if (!_timeRunning && playerID == 1)
                     StartCoroutine(GameClock());
             }
         }
@@ -526,7 +577,6 @@ public class MultiplayerGameManager : NetworkBehaviour
         if (playerID == 1)
             GetComponent<BallServe>().ServeBall();
     }
-
     #endregion
 
     private IEnumerator GameClock()
