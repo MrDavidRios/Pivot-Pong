@@ -63,6 +63,8 @@ public class MultiplayerGameManager : NetworkBehaviour
 
     public GameObject pressAnyKeyText;
 
+    public GameObject waitingForPlayerText;
+
     public TMP_Text gameStatusText;
 
     public TMP_Text pauseMenuRestartButtonText;
@@ -213,10 +215,22 @@ public class MultiplayerGameManager : NetworkBehaviour
         if (NetworkServer.connections.Count == 2)
             AssignBallTailInstance(true);
         else
+        {
+            waitingForPlayerText.GetComponent<TMP_Text>().text = "Waiting for player to connect...\n\nAddress: " + FindObjectOfType<MultiplayerNetworkManager>().networkAddress;
+            waitingForPlayerText.SetActive(true);
+
             MultiplayerNetworkManager.OnPlayerChange += AssignBallTailInstance;
+            MultiplayerNetworkManager.OnPlayerChange += DeactivateWaitingText;
+        }
 
         //Stop game if somebody leaves.
         MultiplayerNetworkManager.OnPlayerChange += StopIfRoomNotFull;
+    }
+
+    private void DeactivateWaitingText(bool roomFull)
+    {
+        if (waitingForPlayerText != null)
+            waitingForPlayerText.SetActive(!roomFull);
     }
 
     private void StopIfRoomNotFull(bool roomFull)
