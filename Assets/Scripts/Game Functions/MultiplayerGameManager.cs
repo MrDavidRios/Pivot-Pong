@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Mirror;
+using UnityEngine.Networking;
 
 public class MultiplayerGameManager : NetworkBehaviour
 {
@@ -113,6 +114,11 @@ public class MultiplayerGameManager : NetworkBehaviour
         Debug.Log("Player 1 Score Updated. Changed from " + oldScore + " to " + newScore);
 
         player1ScoreText.text = newScore.ToString();
+
+        if (player1Score > player2Score)
+            scoreText.text = player1Score + " - " + player2Score;
+        else
+            scoreText.text = player2Score + " - " + player1Score;
     }
 
     private void UpdatePlayer2Score(int oldScore, int newScore)
@@ -120,6 +126,11 @@ public class MultiplayerGameManager : NetworkBehaviour
         Debug.Log("Player 2 Score Updated. Changed from " + oldScore + " to " + newScore);
 
         player2ScoreText.text = newScore.ToString();
+
+        if (player1Score > player2Score)
+            scoreText.text = player1Score + " - " + player2Score;
+        else
+            scoreText.text = player2Score + " - " + player1Score;
     }
 
     void OnEnable()
@@ -164,7 +175,12 @@ public class MultiplayerGameManager : NetworkBehaviour
         _tiebreaker = false;
 
         if (MultiplayerPaddleSetup.paddleID == 1)
+        {
             gamemode = GameSetup.gamemode;
+            endgameScreen.transform.Find("Buttons").Find("RestartButton").gameObject.SetActive(true);
+        }
+        else
+            endgameScreen.transform.Find("Buttons").Find("RestartButton").gameObject.SetActive(false);
 
         gameClock.SetActive(false);
         roundCounter.SetActive(false);
@@ -216,8 +232,7 @@ public class MultiplayerGameManager : NetworkBehaviour
             AssignBallTailInstance(true);
         else
         {
-            waitingForPlayerText.GetComponent<TMP_Text>().text = "Waiting for player to connect...\n\nAddress: " + FindObjectOfType<MultiplayerNetworkManager>().networkAddress;
-            waitingForPlayerText.SetActive(true);
+            StartCoroutine(DisplayAddress());
 
             MultiplayerNetworkManager.OnPlayerChange += AssignBallTailInstance;
             MultiplayerNetworkManager.OnPlayerChange += DeactivateWaitingText;
@@ -225,6 +240,20 @@ public class MultiplayerGameManager : NetworkBehaviour
 
         //Stop game if somebody leaves.
         MultiplayerNetworkManager.OnPlayerChange += StopIfRoomNotFull;
+    }
+
+    IEnumerator DisplayAddress()
+    {
+        UnityWebRequest www = UnityWebRequest.Get("https://api.ipify.org");
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+            waitingForPlayerText.SetActive(false);
+        else
+        {
+            waitingForPlayerText.GetComponent<TMP_Text>().text = "Waiting for player to connect...\n\nAddress: " + www.downloadHandler.text;
+            waitingForPlayerText.SetActive(true);
+        }
     }
 
     private void DeactivateWaitingText(bool roomFull)
@@ -321,7 +350,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 
     public void Score(bool isPlayer1, int scoreAmount)
     {
-        if (_gameEnded)
+        if (_gameEnded || playerID == 2)
             return;
 
         if (isPlayer1)
@@ -329,10 +358,10 @@ public class MultiplayerGameManager : NetworkBehaviour
         else
             player2Score += scoreAmount;
 
-        if (_tiebreaker)
+        if (_tiebreaker && playerID == 1)
             EndGame();
 
-        if (gamemode == "Rounds" && roundNumber + 1 > roundAmount)
+        if (gamemode == "Rounds" && roundNumber + 1 > roundAmount && playerID == 1)
         {
             EndGame();
             return;
@@ -340,7 +369,7 @@ public class MultiplayerGameManager : NetworkBehaviour
 
         roundNumber++;
 
-        if (gamemode == "Timed" && _timeRanOut)
+        if (gamemode == "Timed" && _timeRanOut && playerID == 1)
             EndGame();
 
         if (playerID == 1)
@@ -448,6 +477,7 @@ public class MultiplayerGameManager : NetworkBehaviour
         ResetUI();
     }
 
+    [ClientRpc]
     private void EndGame()
     {
         //First, check if player scores are the same to see whether or not a tiebreaker round should be held.
@@ -621,6 +651,7 @@ public class MultiplayerGameManager : NetworkBehaviour
         _timeRunning = false;
         _timeRanOut = true;
 
-        EndGame();
+        if (playerID == 1)
+            EndGame();
     }
 }

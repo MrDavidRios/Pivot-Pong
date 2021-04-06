@@ -847,6 +847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectionUI: {fileID: 1723839789}
   connectingText: {fileID: 910428802}
+  endgameScreen: {fileID: 1882651250}
   backArrow: {fileID: 426739072}
   addressInput: {fileID: 172389663}
   networkManager: {fileID: 10216882}
@@ -2980,6 +2981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5ff5971e8d1045ad087d6ff8d0ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayer: 0
 --- !u!114 &545715741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3343,10 +3345,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Waiting for player to connect...\n\nAddress:'
+  m_text: 'Waiting for player to connect...\n\n<b>Address:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ca17cabe47cc5de4080f98dc5b988151, type: 2}
-  m_sharedMaterial: {fileID: 1703147532447869132, guid: ca17cabe47cc5de4080f98dc5b988151,
+  m_fontAsset: {fileID: 11400000, guid: 826e31ed4959e06489b4c9632615aaac, type: 2}
+  m_sharedMaterial: {fileID: -249338282670787707, guid: 826e31ed4959e06489b4c9632615aaac,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5097,10 +5099,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1147803730}
         m_TargetAssemblyTypeName: GameUIButtons, Assembly-CSharp
         m_MethodName: BackButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1882651250}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5817,6 +5819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5ff5971e8d1045ad087d6ff8d0ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayer: 0
 --- !u!114 &1147803731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9280,7 +9283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1882651251
 MonoBehaviour:
   m_ObjectHideFlags: 0

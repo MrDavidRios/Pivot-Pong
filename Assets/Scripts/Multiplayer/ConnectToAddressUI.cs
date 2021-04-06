@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
 public class ConnectToAddressUI : MonoBehaviour
 {
     public GameObject connectionUI;
     public GameObject connectingText;
+
+    public GameObject endgameScreen;
 
     public GameObject backArrow;
 
@@ -55,9 +58,15 @@ public class ConnectToAddressUI : MonoBehaviour
         if (connectionUI == null)
             return;
 
-        connectionUI.SetActive(true);
-        connectingText.SetActive(false);
+        if (endgameScreen.activeInHierarchy)
+            StartCoroutine(WaitUntilEndgameScreenClosed());
+        else
+        {
+            connectionUI.SetActive(true);
+            connectingText.SetActive(false);
+        }
     }
+
     private void CloseConnectionUI()
     {
         if (connectionUI == null)
@@ -66,5 +75,13 @@ public class ConnectToAddressUI : MonoBehaviour
         connectionUI.SetActive(false);
         connectingText.SetActive(false);
         backArrow.SetActive(false);
+    }
+
+    IEnumerator WaitUntilEndgameScreenClosed()
+    {
+        yield return new WaitUntil(() => !endgameScreen.activeInHierarchy);
+
+        connectionUI.SetActive(true);
+        connectingText.SetActive(false);
     }
 }

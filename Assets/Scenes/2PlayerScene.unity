@@ -2065,6 +2065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5ff5971e8d1045ad087d6ff8d0ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayer: 0
 --- !u!114 &545715741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4342,10 +4343,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1147803730}
         m_TargetAssemblyTypeName: GameUIButtons, Assembly-CSharp
         m_MethodName: BackButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4862,6 +4863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5ff5971e8d1045ad087d6ff8d0ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayer: 0
 --- !u!114 &1147803731
 MonoBehaviour:
   m_ObjectHideFlags: 0
