@@ -2,8 +2,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using EZCameraShake;
+using Mirror;
 
-public class BallPhysics : MonoBehaviour
+public class BallPhysicsMultiplayer : NetworkBehaviour
 {
     //Booleans
     private bool reServeCheckStarted = false;
@@ -20,6 +21,8 @@ public class BallPhysics : MonoBehaviour
 
     public float maxBallXVelocity = 0f;
     public float maxBallYVelocity = 0f;
+
+    [SyncVar] private float xVelocity;
 
     public float ballVelocityCoefficient = 0f;
 
@@ -48,7 +51,7 @@ public class BallPhysics : MonoBehaviour
 
         currentSceneName = SceneManager.GetActiveScene().name;
 
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<MultiplayerGameManager>();
 
         settings = FindObjectOfType<Settings>();
 
@@ -56,19 +59,23 @@ public class BallPhysics : MonoBehaviour
 
         colorSchemeChanger = FindObjectOfType<ColorSchemeChange>();
 
-        if (currentSceneName != "MainMenu")
-        {
-            paddleControls = FindObjectOfType<PaddleControls>();
+        if (currentSceneName == "MainMenu") return;
+        
+        var paddles = GameObject.FindGameObjectsWithTag("Paddle");
 
-            leftPaddleHorizontalPosition = paddleControls.player1Paddle.transform.position.x;
-            rightPaddleHorizontalPosition = paddleControls.player2Paddle.transform.position.x;
-        }
+        if (paddles.Length > 0)
+            leftPaddleHorizontalPosition = paddles[0].transform.position.x;
+
+        if (paddles.Length > 1)
+            rightPaddleHorizontalPosition = paddles[1].transform.position.x;
     }
 
     private void Update()
     {
         ballVelocityCoefficient = Mathf.Abs(rb2d.velocity.x) + Mathf.Abs(rb2d.velocity.y);
         paddleSpeedMultiplier = ballVelocityCoefficient / 15f;
+
+        if (MultiplayerPaddleSetup.paddleID == 1) xVelocity = rb2d.velocity.x;
 
         if (paddleSpeedMultiplier < 1f)
             paddleSpeedMultiplier = 1f;
@@ -90,9 +97,9 @@ public class BallPhysics : MonoBehaviour
         //Update color scheme based on ball speed
         if (currentSceneName != "MainMenu" && settings.adaptiveColor)
         {
-            if (Mathf.Abs(rb2d.velocity.x) > 10f)
+            if (Mathf.Abs(xVelocity) > 10f)
             {
-                if (Mathf.Abs(rb2d.velocity.x) < 20f && highestReachedStageIndex < 1)
+                if (Mathf.Abs(xVelocity) < 20f && highestReachedStageIndex < 1)
                 {
                     //Change color scheme to stage 2 (index 1)
                     colorSchemeChanger.ChangeColorScheme(1);
@@ -100,7 +107,7 @@ public class BallPhysics : MonoBehaviour
                     highestReachedStageIndex = 1;
                 }
 
-                if (Mathf.Abs(rb2d.velocity.x) > 20f && highestReachedStageIndex < 2)
+                if (Mathf.Abs(xVelocity) > 20f && highestReachedStageIndex < 2)
                 {
                     //Change color scheme to stage 3 (index 2)
                     colorSchemeChanger.ChangeColorScheme(2);
@@ -121,7 +128,8 @@ public class BallPhysics : MonoBehaviour
 
             if (BallTooSlow(2f, "x"))
             {
-                gameManager.InitiateCountdown(true);
+                if (MultiplayerPaddleSetup.paddleID == 1)
+                    gameManager.InitiateReServeCountdown();
             }
         }
 

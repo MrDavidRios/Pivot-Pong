@@ -1,36 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
 {
     //Transforms
-    private Transform ball;
+    private Transform _ball;
     
     //Floats
     public float paddleSpeed;
-
+    public float triggerDistance;
+    
     //Booleans
-    private bool followMouse = true;
+    private bool _followMouse = true;
     public bool followMouseEnabled;
+    
+    //Other
+    private Camera _mainCamera;
 
     private void Awake()
     {
-        ball = GameObject.Find("Ball").transform;
+        _ball = GameObject.Find("Ball").transform;
+        _mainCamera = Camera.main;
     }
 
     private void Update()
     {
-        float xPos = transform.position.x;
+        var pos = transform.position;
+        float xPos = pos.x;
 
-        Vector2 currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 currentMousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Vector2.Distance(transform.position, currentMousePosition) > 6.5f)
-            followMouse = false;
-        else
-            followMouse = true;
+        _followMouse = !(Vector2.Distance(pos, currentMousePosition) > triggerDistance);
 
-        if (followMouse)
+        if (_followMouse)
         {
             if (followMouseEnabled)
             {
@@ -44,7 +45,7 @@ public class FollowMouse : MonoBehaviour
             else
             {
                 //Follow Ball
-                transform.position = Vector2.MoveTowards(transform.position, ball.position, paddleSpeed / 100);
+                transform.position = Vector2.MoveTowards(transform.position, _ball.position, paddleSpeed / 100);
 
                 //Lock paddle to y-axis
                 transform.position = new Vector2(xPos, transform.position.y);
@@ -53,7 +54,7 @@ public class FollowMouse : MonoBehaviour
         else
         {
             //Follow Ball
-            transform.position = Vector2.MoveTowards(transform.position, ball.position, paddleSpeed / 100);
+            transform.position = Vector2.MoveTowards(transform.position, _ball.position, paddleSpeed / 100);
 
             //Lock paddle to y-axis
             transform.position = new Vector2(xPos, transform.position.y);

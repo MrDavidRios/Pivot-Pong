@@ -32,12 +32,12 @@ namespace EZCameraShake
         public bool DeleteOnInactive = true;
 
 
-        float roughMod = 1, magnMod = 1;
-        float fadeOutDuration, fadeInDuration;
-        bool sustain;
-        float currentFadeTime;
-        float tick = 0;
-        Vector3 amt;
+        private float roughMod = 1, magnMod = 1;
+        private float fadeOutDuration, fadeInDuration;
+        private bool sustain;
+        private float currentFadeTime;
+        private float tick = 0;
+        private Vector3 amt;
 
         /// <summary>
         /// Will create a new instance that will shake once and fade over the given number of seconds.
@@ -156,13 +156,13 @@ namespace EZCameraShake
         public float NormalizedFadeTime
         { get { return currentFadeTime; } }
 
-        bool IsShaking
+        private bool IsShaking
         { get { return currentFadeTime > 0 || sustain; } }
 
-        bool IsFadingOut
+        private bool IsFadingOut
         { get { return !sustain && currentFadeTime > 0; } }
 
-        bool IsFadingIn
+        private bool IsFadingIn
         { get { return currentFadeTime < 1 && sustain && fadeInDuration > 0; } }
 
         /// <summary>

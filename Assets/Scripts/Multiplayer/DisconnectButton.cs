@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DisconnectButton : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
         var networkManager = FindObjectOfType<MultiplayerNetworkManager>();
 

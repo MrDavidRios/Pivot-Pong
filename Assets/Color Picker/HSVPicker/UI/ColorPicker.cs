@@ -282,7 +282,7 @@ public class ColorPicker : MonoBehaviour
         UpdateColorToggleText();
     }
 
-    void UpdateColorToggleText()
+    private void UpdateColorToggleText()
     {
         if (Setup.ShowRgb)
         {

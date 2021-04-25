@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     private CameraTransition cameraTransition;
     private SwitchMenuWindows switchMenuWindows;
 
-    void Awake()
+    private void Awake()
     {
         currentMenuPageStatic = "MainMenu";
 

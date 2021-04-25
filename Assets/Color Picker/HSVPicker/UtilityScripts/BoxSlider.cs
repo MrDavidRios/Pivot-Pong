@@ -118,7 +118,7 @@ namespace UnityEngine.UI
 		private DrivenRectTransformTracker m_Tracker;
 		
 		// Size of each step.
-		float stepSize { get { return wholeNumbers ? 1 : (maxValue - minValue) * 0.1f; } }
+		private float stepSize { get { return wholeNumbers ? 1 : (maxValue - minValue) * 0.1f; } }
 		
 		protected BoxSlider()
 		{ }
@@ -209,8 +209,8 @@ namespace UnityEngine.UI
 			m_Tracker.Clear();
 			base.OnDisable();
 		}
-		
-		void UpdateCachedReferences()
+
+		private void UpdateCachedReferences()
 		{
 			
 			if (m_HandleRect)
@@ -226,12 +226,12 @@ namespace UnityEngine.UI
 		}
 		
 		// Set the valueUpdate the visible Image.
-		void Set(float input)
+		private void Set(float input)
 		{
 			Set(input, true);
 		}
-		
-		void Set(float input, bool sendCallback)
+
+		private void Set(float input, bool sendCallback)
 		{
 			// Clamp the input
 			float newValue = Mathf.Clamp(input, minValue, maxValue);
@@ -248,12 +248,12 @@ namespace UnityEngine.UI
 				m_OnValueChanged.Invoke(newValue, valueY);
 		}
 
-		void SetY(float input)
+		private void SetY(float input)
 		{
 			SetY(input, true);
 		}
-		
-		void SetY(float input, bool sendCallback)
+
+		private void SetY(float input, bool sendCallback)
 		{
 			// Clamp the input
 			float newValue = Mathf.Clamp(input, minValue, maxValue);
@@ -276,8 +276,8 @@ namespace UnityEngine.UI
 			base.OnRectTransformDimensionsChange();
 			UpdateVisuals();
 		}
-		
-		enum Axis
+
+		private enum Axis
 		{
 			Horizontal = 0,
 			Vertical = 1
@@ -310,7 +310,7 @@ namespace UnityEngine.UI
 		}
 		
 		// Update the slider's position based on the mouse.
-		void UpdateDrag(PointerEventData eventData, Camera cam)
+		private void UpdateDrag(PointerEventData eventData, Camera cam)
 		{
 			RectTransform clickRect = m_HandleContainerRect;
 			if (clickRect != null && clickRect.rect.size[0] > 0)

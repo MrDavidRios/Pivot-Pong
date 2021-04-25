@@ -28,7 +28,7 @@ public class CameraTransition : MonoBehaviour
         MainMenu.currentMenuPageStatic = newCameraPosObj.name.Substring(0, newCameraPosObj.name.Length - 8);
     }
 
-    IEnumerator TransitionCoroutine(Vector3 newCameraPos)
+    private IEnumerator TransitionCoroutine(Vector3 newCameraPos)
     {
         float t = 0;
 

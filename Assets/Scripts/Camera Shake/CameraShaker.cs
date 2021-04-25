@@ -10,7 +10,8 @@ namespace EZCameraShake
         /// The single instance of the CameraShaker in the current scene. Do not use if you have multiple instances.
         /// </summary>
         public static CameraShaker Instance;
-        static Dictionary<string, CameraShaker> instanceList = new Dictionary<string, CameraShaker>();
+
+        private static Dictionary<string, CameraShaker> instanceList = new Dictionary<string, CameraShaker>();
 
         /// <summary>
         /// The default position influcence of all shakes created by this shaker.
@@ -29,17 +30,17 @@ namespace EZCameraShake
         /// </summary>
         public Vector3 RestRotationOffset = new Vector3(0, 0, 0);
 
-        Vector3 posAddShake, rotAddShake;
+        private Vector3 posAddShake, rotAddShake;
 
-        List<CameraShakeInstance> cameraShakeInstances = new List<CameraShakeInstance>();
+        private List<CameraShakeInstance> cameraShakeInstances = new List<CameraShakeInstance>();
 
-        void Awake()
+        private void Awake()
         {
             Instance = this;
             instanceList.Add(gameObject.name, this);
         }
 
-        void Update()
+        private void Update()
         {
             posAddShake = Vector3.zero;
             rotAddShake = Vector3.zero;
@@ -175,7 +176,7 @@ namespace EZCameraShake
         public List<CameraShakeInstance> ShakeInstances
         { get { return new List<CameraShakeInstance>(cameraShakeInstances); } }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             instanceList.Remove(gameObject.name);
         }

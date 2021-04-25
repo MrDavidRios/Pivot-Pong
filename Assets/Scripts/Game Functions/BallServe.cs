@@ -5,6 +5,10 @@ public class BallServe : MonoBehaviour
 {
     #region Initialization
 
+    //Booleans
+    public bool multiplayer = false;
+    public bool instantServe = false;
+    
     //Floats
     public float ballServeForceX;
     public float ballServeForceY;
@@ -27,7 +31,7 @@ public class BallServe : MonoBehaviour
     //Scripts
     private GameManager gameManager;
 
-    void Awake()
+    private void Awake()
     {
         if (directionalArrow != null)
             directionalArrow.GetComponent<Image>().enabled = false;
@@ -36,9 +40,14 @@ public class BallServe : MonoBehaviour
 
         initBallServeForceX = ballServeForceX;
         initBallServeForceY = ballServeForceY;
-
     }
     #endregion
+
+    private void Start()
+    {
+        if (instantServe)
+            ServeBall();
+    }
 
     public void PreServeBall()
     {
@@ -83,7 +92,10 @@ public class BallServe : MonoBehaviour
         if (ball == null)
             ball = GameObject.FindGameObjectWithTag("Ball").transform;
 
-        ball.GetComponent<BallPhysics>().highestReachedStageIndex = 0;
+        if (multiplayer)
+            ball.GetComponent<BallPhysicsMultiplayer>().highestReachedStageIndex = 0;
+        else
+            ball.GetComponent<BallPhysics>().highestReachedStageIndex = 0;
 
         if (directionalArrow != null)
             directionalArrow.GetComponent<Image>().enabled = false;

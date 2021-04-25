@@ -150,9 +150,9 @@ GameObject:
   - component: {fileID: 9108892211141789021}
   - component: {fileID: 9108892211141789019}
   - component: {fileID: 9108892211141789018}
-  - component: {fileID: 9108892211141789017}
   - component: {fileID: 8777405657528938654}
   - component: {fileID: 6014418907607396703}
+  - component: {fileID: -4543347112555495450}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -263,26 +263,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.16
---- !u!114 &9108892211141789017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9108892211141789022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66c1e6a88357734478f8acd41c4aa83c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraShakeEnabled: 0
-  multiplayer: 1
-  highestReachedStageIndex: 0
-  forceToAddX: 5
-  forceToAddY: 5
-  maxBallXVelocity: 25
-  maxBallYVelocity: 10
-  ballVelocityCoefficient: 0
 --- !u!114 &8777405657528938654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,11 +293,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.01
   clientAuthority: 0
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
-  compressRotation: 1
+  compressRotation: 0
   interpolateScale: 0
   syncScale: 0
+--- !u!114 &-4543347112555495450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9108892211141789022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eb9ce4876e24beb87ae74509f576e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  cameraShakeEnabled: 0
+  highestReachedStageIndex: 0
+  forceToAddX: 5
+  forceToAddY: 5
+  maxBallXVelocity: 25
+  maxBallYVelocity: 20
+  ballVelocityCoefficient: 5

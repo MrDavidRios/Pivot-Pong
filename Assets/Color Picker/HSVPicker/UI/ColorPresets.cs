@@ -12,13 +12,13 @@ public class ColorPresets : MonoBehaviour
 
     private ColorPresetList _colors;
 
-	void Awake()
+    private void Awake()
 	{
 //		picker.onHSVChanged.AddListener(HSVChanged);
 		picker.onValueChanged.AddListener(ColorChanged);
 	}
 
-    void Start()
+    private void Start()
     {
         _colors = ColorPresetManager.Get(picker.Setup.PresetColorsId);
 

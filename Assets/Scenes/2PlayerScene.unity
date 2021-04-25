@@ -478,10 +478,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1147803730}
         m_TargetAssemblyTypeName: GameUIButtons, Assembly-CSharp
         m_MethodName: BackButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3294,6 +3294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d668ef7005ccf74ea153d9c14d56298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayer: 0
   ballServeForceX: 50
   ballServeForceY: 20
   ball: {fileID: 1425638891}
@@ -3395,8 +3396,8 @@ MonoBehaviour:
   primaryColorObjects:
   - {fileID: 866429242}
   - {fileID: 630349973}
+  secondaryColorObjects:
   - {fileID: 1795714045}
-  secondaryColorObjects: []
   colorSchemes:
   - primaryColor: {r: 1, g: 1, b: 1, a: 1}
     secondaryColor: {r: 0, g: 0.7765064, b: 1, a: 1}
@@ -6128,7 +6129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraShakeEnabled: 0
-  multiplayer: 0
   highestReachedStageIndex: 0
   forceToAddX: 5
   forceToAddY: 5

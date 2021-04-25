@@ -9,7 +9,7 @@ public class ColorPickerTester : MonoBehaviour
     public Color Color = Color.red;
 
 	// Use this for initialization
-	void Start () 
+	private void Start () 
     {
         picker.onValueChanged.AddListener(color =>
         {
@@ -23,7 +23,7 @@ public class ColorPickerTester : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
 	
 	}
 }

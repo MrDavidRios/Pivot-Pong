@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int seconds;
 
     //Scripts
-    [SerializeField] UIAnimationManager UIAnimationManagerScript;
+    [SerializeField] private UIAnimationManager UIAnimationManagerScript;
     private Settings _settings;
 
     //Ball Tail
@@ -416,7 +416,7 @@ public class GameManager : MonoBehaviour
         GetComponent<ColorSchemeChange>().ChangeColorScheme(0);
     }
 
-    IEnumerator Countdown(int numberOfSeconds)
+    private IEnumerator Countdown(int numberOfSeconds)
     {
         countdownInProgress = true;
 

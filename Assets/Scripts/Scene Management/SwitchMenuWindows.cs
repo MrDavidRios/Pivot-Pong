@@ -216,7 +216,7 @@ public class SwitchMenuWindows : MonoBehaviour
     }
     #endregion
 
-    IEnumerator VerifyTransitionCompletion(string _sceneName)
+    private IEnumerator VerifyTransitionCompletion(string _sceneName)
     {
         transitionVerificationCompleted = false;
         yield return new WaitUntil(() => cameraTransition.transitionComplete);

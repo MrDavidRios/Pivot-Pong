@@ -14,7 +14,7 @@ public class ConnectToAddressUI : MonoBehaviour
 
     [SerializeField] private MultiplayerNetworkManager networkManager;
 
-    void Awake()
+    private void Awake()
     {
         if (GameSetup.hosting)
         {
@@ -77,7 +77,7 @@ public class ConnectToAddressUI : MonoBehaviour
         backArrow.SetActive(false);
     }
 
-    IEnumerator WaitUntilEndgameScreenClosed()
+    private IEnumerator WaitUntilEndgameScreenClosed()
     {
         yield return new WaitUntil(() => !endgameScreen.activeInHierarchy);
 

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class UIAnimationManager : MonoBehaviour
 {
     #region PressAnyKeyUI
+
     public GameObject[] pressAnyKeyUI;
 
     public Text[] player1ControlUI;
@@ -16,7 +17,8 @@ public class UIAnimationManager : MonoBehaviour
 
         for (int i = 0; i < pressAnyKeyUI.Length; i++)
         {
-            pressAnyKeyUI[i].GetComponent<Animator>().SetBool("FadeOut", true);
+            if (pressAnyKeyUI[i].activeSelf)
+                pressAnyKeyUI[i].GetComponent<Animator>().SetBool("FadeOut", true);
         }
     }
 
@@ -26,17 +28,20 @@ public class UIAnimationManager : MonoBehaviour
         {
             for (int i = 1; i < 5; i++)
             {
-                pressAnyKeyUI[i].GetComponent<Animator>().SetBool("KeyPressed", true);
+                if (pressAnyKeyUI[i].activeSelf)
+                    pressAnyKeyUI[i].GetComponent<Animator>().SetBool("KeyPressed", true);
             }
         }
         else if (pressAnyKeyUI.Length > 5)
         {
             for (int i = 5; i < 9; i++)
             {
-                pressAnyKeyUI[i].GetComponent<Animator>().SetBool("KeyPressed", true);
+                if (pressAnyKeyUI[i].activeSelf)
+                    pressAnyKeyUI[i].GetComponent<Animator>().SetBool("KeyPressed", true);
             }
         }
     }
+
     #endregion
 
     public GameObject[] pauseMenuUI;
@@ -45,7 +50,8 @@ public class UIAnimationManager : MonoBehaviour
     {
         for (int i = 0; i < pauseMenuUI.Length; i++)
         {
-            pauseMenuUI[i].GetComponent<Animator>().SetBool("FadeOut", true);
+            if (pauseMenuUI[i].activeSelf)
+                pauseMenuUI[i].GetComponent<Animator>().SetBool("FadeOut", true);
         }
     }
 
@@ -60,12 +66,10 @@ public class UIAnimationManager : MonoBehaviour
     {
         for (int i = 0; i < settingsMenuUI.Length; i++)
         {
-            settingsMenuUI[i].GetComponent<Animator>().SetBool("FadeOut", true);
+            if (settingsMenuUI[i].activeSelf)
+                settingsMenuUI[i].GetComponent<Animator>().SetBool("FadeOut", true);
         }
     }
 
-    public void DeactivateSettingsMenu()
-    {
-        settingsMenuUI[0].SetActive(false);
-    }
+    public void DeactivateSettingsMenu() => settingsMenuUI[0].SetActive(false);
 }

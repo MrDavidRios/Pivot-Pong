@@ -23,6 +23,8 @@ public class ColorSchemeChange : MonoBehaviour
     private bool currentlyLerping = false;
     private bool anotherLerpStarted = false;
 
+    public bool multiplayer = false;
+
     //Integers
     private int currentStageIndex = 0;
     private int stageIndexToCutOff = 0;
@@ -52,6 +54,14 @@ public class ColorSchemeChange : MonoBehaviour
     /// Call this whenever the ball exceeds a certain speed
     private IEnumerator ChangeColorSchemeCoroutine(int stageIndex)
     {
+        if (multiplayer)
+        {
+            primaryColorObjects[0] = GameObject.Find("Paddle " + MultiplayerPaddleSetup.paddleID);
+            primaryColorObjects[1] = GameObject.Find("PlayerPaddle(Clone)");
+
+            secondaryColorObjects[0] = GameObject.Find("Tail");
+        }
+
         StartCoroutine(ChangeBackgroundColor(stageIndex));
 
         currentStageIndex = stageIndex;
@@ -71,32 +81,46 @@ public class ColorSchemeChange : MonoBehaviour
 
             t += Time.deltaTime * lerpSpeed;
 
-            foreach (GameObject obj in primaryColorObjects) //TODO: Optimize this so that it uses generics to access components instead of GetComponent<>. This should shave off some ms.
+            foreach (GameObject obj in
+                primaryColorObjects) //TODO: Optimize this so that it uses generics to access components instead of GetComponent<>. This should shave off some ms.
             {
                 if (obj.GetComponent<SpriteRenderer>() != null)
                     obj.GetComponent<SpriteRenderer>().color =
                         Color.Lerp(obj.GetComponent<SpriteRenderer>().color, colorSchemes[stageIndex].primaryColor, t);
                 else if (obj.GetComponent<Text>() != null)
-                    obj.GetComponent<Text>().color = Color.Lerp(obj.GetComponent<Text>().color, colorSchemes[stageIndex].primaryColor, t);
+                    obj.GetComponent<Text>().color = Color.Lerp(obj.GetComponent<Text>().color,
+                        colorSchemes[stageIndex].primaryColor, t);
                 else if (obj.GetComponent<Image>() != null)
-                    obj.GetComponent<Image>().color = Color.Lerp(obj.GetComponent<Image>().color, colorSchemes[stageIndex].primaryColor, t);
+                    obj.GetComponent<Image>().color = Color.Lerp(obj.GetComponent<Image>().color,
+                        colorSchemes[stageIndex].primaryColor, t);
                 else if (obj.GetComponent<TrailRenderer>() != null)
                 {
                     obj.GetComponent<TrailRenderer>().colorGradient =
-                        GenerateTrailGradient(obj.GetComponent<TrailRenderer>().colorGradient, colorSchemes[stageIndex].secondaryColor,
+                        GenerateTrailGradient(obj.GetComponent<TrailRenderer>().colorGradient,
+                            colorSchemes[stageIndex].secondaryColor,
                             Color.white, t);
                 }
             }
 
             foreach (GameObject obj in secondaryColorObjects)
             {
-                if (obj.GetComponent<Text>() == null && obj.GetComponent<Image>() == null)
+                if (obj.GetComponent<SpriteRenderer>() != null)
                     obj.GetComponent<SpriteRenderer>().color =
-                        Color.Lerp(obj.GetComponent<SpriteRenderer>().color, colorSchemes[stageIndex].secondaryColor, t);
-                else if (obj.GetComponent<Image>() == null)
-                    obj.GetComponent<Text>().color = Color.Lerp(obj.GetComponent<Text>().color, colorSchemes[stageIndex].secondaryColor, t);
-                else
-                    obj.GetComponent<Image>().color = Color.Lerp(obj.GetComponent<Image>().color, colorSchemes[stageIndex].secondaryColor, t);
+                        Color.Lerp(obj.GetComponent<SpriteRenderer>().color, colorSchemes[stageIndex].secondaryColor,
+                            t);
+                else if (obj.GetComponent<Text>() != null)
+                    obj.GetComponent<Text>().color = Color.Lerp(obj.GetComponent<Text>().color,
+                        colorSchemes[stageIndex].secondaryColor, t);
+                else if (obj.GetComponent<Image>() != null)
+                    obj.GetComponent<Image>().color = Color.Lerp(obj.GetComponent<Image>().color,
+                        colorSchemes[stageIndex].secondaryColor, t);
+                else if (obj.GetComponent<TrailRenderer>() != null)
+                {
+                    obj.GetComponent<TrailRenderer>().colorGradient =
+                        GenerateTrailGradient(obj.GetComponent<TrailRenderer>().colorGradient,
+                            colorSchemes[stageIndex].secondaryColor,
+                            Color.white, t);
+                }
             }
 
             yield return null;
@@ -117,7 +141,8 @@ public class ColorSchemeChange : MonoBehaviour
 
             t += Time.deltaTime * backgroundLerpSpeed;
 
-            mainCamera.backgroundColor = Color.Lerp(mainCamera.backgroundColor, colorSchemes[stageIndex].backgroundColor, t);
+            mainCamera.backgroundColor =
+                Color.Lerp(mainCamera.backgroundColor, colorSchemes[stageIndex].backgroundColor, t);
 
             yield return null;
         }

@@ -96,11 +96,12 @@ public class MultiplayerGameManager : NetworkBehaviour
 
     //Scripts
     [Header("Components")]
-    [SerializeField] UIAnimationManager _UIAnimationManagerScript;
+    [SerializeField]
+    private UIAnimationManager _UIAnimationManagerScript;
 
-    [SerializeField] ColorSchemeChange colorSchemeManager;
+    [SerializeField] private ColorSchemeChange colorSchemeManager;
 
-    [SerializeField] Settings _settings;
+    [SerializeField] private Settings _settings;
 
     //Ball Tail
     [Header("Ball Tail")]
@@ -133,7 +134,7 @@ public class MultiplayerGameManager : NetworkBehaviour
             scoreText.text = player2Score + " - " + player1Score;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         gamemode = GameSetup.gamemode == null ? "Undefined" : GameSetup.gamemode;
 
@@ -185,9 +186,9 @@ public class MultiplayerGameManager : NetworkBehaviour
         gameClock.SetActive(false);
         roundCounter.SetActive(false);
 
-        for (int i = 0; i < pressAnyKeyUI.Length; i++)
+        foreach (var element in pressAnyKeyUI)
         {
-            pressAnyKeyUI[i].SetActive(true);
+            element.SetActive(true);
         }
 
         MultiplayerNetworkManager.OnPlayerChange += ShowPressKeyReminder;
@@ -242,7 +243,7 @@ public class MultiplayerGameManager : NetworkBehaviour
         MultiplayerNetworkManager.OnPlayerChange += StopIfRoomNotFull;
     }
 
-    IEnumerator DisplayAddress()
+    private IEnumerator DisplayAddress()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://api.ipify.org");
         yield return www.SendWebRequest();
@@ -325,11 +326,6 @@ public class MultiplayerGameManager : NetworkBehaviour
                 break;
         }
 
-        if (countdownInProgress)
-            pauseMenuRestartButtonText.text = "Restart (after countdown)";
-        else
-            pauseMenuRestartButtonText.text = "Restart";
-
         if (pressAnyKeyUI[0].activeInHierarchy)
             countdownInProgress = true;
     }
@@ -401,69 +397,18 @@ public class MultiplayerGameManager : NetworkBehaviour
         _UIAnimationManagerScript.PauseMenuFadeOut();
     }
 
-    public void OpenInGameSettingsMenu(GameObject settingsMenu)
+    public void OpenInGameSettingsMenu(GameObject menu)
     {
-        if (settingsMenu.activeInHierarchy)
+        if (menu.activeInHierarchy)
         {
             FindObjectOfType<Settings>().SaveSettings();
 
-            settingsMenu.SetActive(false);
+            menu.SetActive(false);
         }
         else
-            settingsMenu.SetActive(true);
+            menu.SetActive(true);
     }
-
-    public void RestartGame(bool fromPauseMenu = false)
-    {
-        _tiebreaker = false;
-        _gameEnded = false;
-
-        player1Score = 0;
-        player2Score = 0;
-
-        gameStarted = false;
-
-        for (int i = 0; i < pressAnyKeyUI.Length; i++)
-        {
-            pressAnyKeyUI[i].SetActive(false);
-            pressAnyKeyUI[i].SetActive(true);
-        }
-
-        player1Paddle.transform.position = new Vector2(player1Paddle.transform.position.x, 0f);
-        player2Paddle.transform.position = new Vector2(player2Paddle.transform.position.x, 0f);
-
-        player1Paddle.transform.eulerAngles = Vector3.zero;
-        player2Paddle.transform.eulerAngles = Vector3.zero;
-
-        if (gamemode == "Timed")
-        {
-            gameClock.SetActive(false);
-            gameClockMinutes = minutes;
-            gameClockSeconds = seconds;
-
-            _timeRanOut = false;
-        }
-        else
-        {
-            topRoundCounterText.gameObject.SetActive(false);
-
-            if (playerID == 1)
-                roundNumber = 1;
-        }
-
-        Time.timeScale = 1;
-
-        if (fromPauseMenu)
-        {
-            GetComponent<BallServe>().RepositionBall();
-            pauseMenu.SetActive(false);
-        }
-        else
-        {
-            endgameScreen.SetActive(false);
-        }
-    }
-
+    
     private void StopGame()
     {
         _tiebreaker = false;
@@ -565,7 +510,7 @@ public class MultiplayerGameManager : NetworkBehaviour
         colorSchemeManager.ChangeColorScheme(0);
     }
 
-    IEnumerator Countdown(int numberOfSeconds)
+    private IEnumerator Countdown(int numberOfSeconds)
     {
         countdownInProgress = true;
 

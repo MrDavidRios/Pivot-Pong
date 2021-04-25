@@ -46,7 +46,7 @@ public class LoadScene : MonoBehaviour
         StartCoroutine(CompleteSceneSwitchCoroutine(_sceneName));
     }
 
-    IEnumerator CompleteSceneSwitchCoroutine(string _sceneName)
+    private IEnumerator CompleteSceneSwitchCoroutine(string _sceneName)
     {
         switch (_sceneName)
         {

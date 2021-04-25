@@ -59,11 +59,11 @@ public class AudioManager : MonoBehaviour
     }
 
     //Update settings instance when switching scenes
-    void OnEnable() => SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    private void OnEnable() => SceneManager.sceneLoaded += OnLevelFinishedLoading;
 
-    void OnDisable() => SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         settings = FindObjectOfType<Settings>();
     }
